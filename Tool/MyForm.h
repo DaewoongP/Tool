@@ -1,14 +1,14 @@
 #pragma once
-#include "afxwin.h"
-#include "MapTool.h"
-// CMyForm í¼ ë·°ì…ë‹ˆë‹¤.
+// CMyForm Æû ºäÀÔ´Ï´Ù.
+
 #include "ObjectTool.h"
+
 class CMyForm : public CFormView
 {
 	DECLARE_DYNCREATE(CMyForm)
 
 protected:
-	CMyForm();           // ë™ì  ë§Œë“¤ê¸°ì— ì‚¬ìš©ë˜ëŠ” protected ìƒì„±ìì…ë‹ˆë‹¤.
+	CMyForm();           // µ¿Àû ¸¸µé±â¿¡ »ç¿ëµÇ´Â protected »ı¼ºÀÚÀÔ´Ï´Ù.
 	virtual ~CMyForm();
 
 public:
@@ -23,18 +23,14 @@ public:
 #endif
 
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV ì§€ì›ì…ë‹ˆë‹¤.
+	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV Áö¿øÀÔ´Ï´Ù.
 	afx_msg void OnObjectTool();
 
 	DECLARE_MESSAGE_MAP()
 public:
 	virtual void OnInitialUpdate();
-	afx_msg void OnGridCheckBox();
-	afx_msg void OnMapTool();
 public:
 	CFont				m_Font;
-	CButton				m_GridCheck;
-	CMapTool			m_MapTool;
 	CObjectTool			m_ObjectTool;
 };
 

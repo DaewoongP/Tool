@@ -5,7 +5,6 @@
 
 
 CMyTerrain::CMyTerrain()
-	:m_bRender(false)
 {
 	m_vecTile.reserve(TILEX * TILEY);
 }
@@ -56,8 +55,6 @@ void CMyTerrain::Late_Update(void)
 
 void CMyTerrain::Render()
 {
-	if (!m_bRender)
-		return;
 	D3DXMATRIX		matWorld, matScale, matTrans;
 
 	TCHAR		szBuf[MIN_STR] = L"";
@@ -111,8 +108,6 @@ void CMyTerrain::Render()
 
 void CMyTerrain::Mini_Render(void)
 {
-	if (!m_bRender)
-		return;
 	D3DXMATRIX		matWorld, matScale, matTrans;
 
 	for (auto pTile : m_vecTile)

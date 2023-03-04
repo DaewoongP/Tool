@@ -1,20 +1,12 @@
 //{{NO_DEPENDENCIES}}
-// Microsoft Visual C++ì—ì„œ ìƒì„±í•œ í¬í•¨ íŒŒì¼ì…ë‹ˆë‹¤.
-// Tool.rcì—ì„œ ì‚¬ìš©ë˜ê³  ìˆìŠµë‹ˆë‹¤.
+// Microsoft Visual C++¿¡¼­ »ı¼ºÇÑ Æ÷ÇÔ ÆÄÀÏÀÔ´Ï´Ù.
+// Tool.rc¿¡¼­ »ç¿ëµÇ°í ÀÖ½À´Ï´Ù.
 //
 #define IDD_ABOUTBOX                    100
 #define IDP_OLE_INIT_FAILED             100
 #define IDR_MAINFRAME                   128
 #define IDR_ToolTYPE                    130
 #define IDD_MYFORM                      310
-#define IDD_MAPTOOL                     411
-#define IDC_CHECK1                      1100
-#define IDC_BUTTON3                     1101
-#define IDC_LIST1                       1102
-#define IDC_LIST2                       1103
-#define IDC_BUTTON4                     1104
-#define IDC_BUTTON5                     1105
-#define IDC_MAP_PICTURE                 1106
 #define IDD_OBJECTTOOL                  312
 #define IDC_BUTTON1                     1000
 #define IDC_BUTTON2                     1002

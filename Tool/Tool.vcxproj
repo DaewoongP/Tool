@@ -199,9 +199,7 @@
   <ItemGroup>
     <ClInclude Include="Device.h" />
     <ClInclude Include="FileInfo.h" />
-    <ClInclude Include="Grid.h" />
     <ClInclude Include="MainFrm.h" />
-    <ClInclude Include="MapTool.h" />
     <ClInclude Include="MiniView.h" />
     <ClInclude Include="MultiTexture.h" />
     <ClInclude Include="MyForm.h" />
@@ -221,9 +219,7 @@
   <ItemGroup>
     <ClCompile Include="Device.cpp" />
     <ClCompile Include="FileInfo.cpp" />
-    <ClCompile Include="Grid.cpp" />
     <ClCompile Include="MainFrm.cpp" />
-    <ClCompile Include="MapTool.cpp" />
     <ClCompile Include="MiniView.cpp" />
     <ClCompile Include="MultiTexture.cpp" />
     <ClCompile Include="MyForm.cpp" />
