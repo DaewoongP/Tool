@@ -16,7 +16,7 @@ CMyTerrain::~CMyTerrain()
 
 HRESULT CMyTerrain::Initialize(void)
 {
-	if (FAILED(TEXTURE->Insert_Texture(L"../Texture/Stage/Terrain/Tile/Tile%d.png", TEX_MULTI, L"Terrain", L"Tile", 36)))
+	if (FAILED(TEXTURE->Insert_Texture(L"../Texture/Tile/Tile%d.png", TEX_MULTI, L"Terrain", L"Tile", 5)))
 	{
 		AfxMessageBox(L"Tile Texture Insert Failed");
 		return E_FAIL;
@@ -34,7 +34,7 @@ HRESULT CMyTerrain::Initialize(void)
 			pTile->vPos = { fX, fY , 0.f };
 			pTile->vSize = { (float)TILECX , (float)TILECY, 0.f };
 			pTile->byOption = 0;
-			pTile->byDrawID = 3;
+			pTile->byDrawID = 0;
 
 			m_vecTile.push_back(pTile);
 		}
@@ -67,8 +67,8 @@ void CMyTerrain::Render()
 		D3DXMatrixIdentity(&matWorld);
 		D3DXMatrixScaling(&matScale, 1.f, 1.f, 1.f);
 		D3DXMatrixTranslation(&matTrans,
-			pTile->vPos.x - m_vScroll.x,
-			pTile->vPos.y - m_vScroll.y,
+			pTile->vPos.x - m_pMainView->GetScrollPos(0),
+			pTile->vPos.y - m_pMainView->GetScrollPos(1),
 			0.f);
 
 		matWorld = matScale * matTrans;

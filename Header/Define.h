@@ -13,11 +13,11 @@ typedef D3DXMATRIX    MATRIX;
 
 #define		SAFE_DELETE(p)	if(p) { delete p; p = nullptr;}
 
-#define		TILECX			130
-#define		TILECY			68
+#define		TILECX			94
+#define		TILECY			48
 
 #define		TILEX			20
-#define		TILEY			30
+#define		TILEY			45
 
 #define		MIN_STR			64
 #define		MAX_STR			256
@@ -60,4 +60,3 @@ extern HWND		g_hWnd;
 
 #define		DEVICE	CDevice::Get_Instance()
 #define		TEXTURE	CTextureMgr::Get_Instance()
-#define		OBJ		CObjMgr::Get_Instance()

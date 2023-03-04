@@ -70,4 +70,3 @@ using namespace std;
 #include "Include.h"
 #include "Device.h"
 #include "TextureMgr.h"
-#include "ObjMgr.h"

@@ -18,3 +18,10 @@
 #define _APS_NEXT_SYMED_VALUE           311
 #endif
 #endif
+
+/*
+#define _APS_NEXT_RESOURCE_VALUE        410
+#define _APS_NEXT_COMMAND_VALUE         32871
+#define _APS_NEXT_CONTROL_VALUE         1100
+#define _APS_NEXT_SYMED_VALUE           411
+*/

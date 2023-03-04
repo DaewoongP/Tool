@@ -124,16 +124,9 @@ void CToolView::OnInitialUpdate()
 		AfxMessageBox(L"Device Create Failed");
 		return;
 	}
-	/*if (FAILED(m_pTerrain->Initialize()))
-	{
-	AfxMessageBox(L"MyTerrain Create Failed");
-	return;
-	}
-
-	m_pTerrain->Set_View(this);*/
+	
 	m_pTerrain = new CMyTerrain;
-	m_pTerrain->Initialize();
-	if (FAILED(OBJ->Add_Object(CObjMgr::TERRAIN, m_pTerrain)))
+	if (FAILED(m_pTerrain->Initialize()))
 	{
 		AfxMessageBox(L"MyTerrain Create Failed");
 		return;
@@ -154,8 +147,7 @@ void CToolView::OnDraw(CDC* /*pDC*/)
 
 	DEVICE->Render_Begin();
 
-	OBJ->Render();
-	//m_pTerrain->Render();
+	m_pTerrain->Render();
 
 	DEVICE->Render_End();
 }
@@ -163,8 +155,7 @@ void CToolView::OnDraw(CDC* /*pDC*/)
 void CToolView::OnDestroy()
 {
 	CScrollView::OnDestroy();
-
-	OBJ->Destroy_Instance();
+	Safe_Delete(m_pTerrain);
 	TEXTURE->Destroy_Instance();
 	DEVICE->Destroy_Instance();
 }
@@ -177,10 +168,9 @@ void CToolView::OnLButtonDown(UINT nFlags, CPoint point)
 	CMainFrame*		pMainFrm = dynamic_cast<CMainFrame*>(AfxGetApp()->GetMainWnd());
 	CMyForm*		pMyForm = dynamic_cast<CMyForm*>(pMainFrm->m_SecondSplitter.GetPane(0, 0));
 
-	/*dynamic_cast<CMyTerrain*>(m_pTerrain)->TileChange(D3DXVECTOR3(float(point.x) + GetScrollPos(0),
-		float(point.y) + GetScrollPos(1), 0.f), 0);*/
-	dynamic_cast<CMyTerrain*>(OBJ->Get_Terrain())->TileChange(D3DXVECTOR3(float(point.x) + GetScrollPos(0),
-		float(point.y) + GetScrollPos(1), 0.f), 0);
+	dynamic_cast<CMyTerrain*>(m_pTerrain)->TileChange(D3DXVECTOR3(float(point.x) + GetScrollPos(0),
+		float(point.y) + GetScrollPos(1), 0.f), 2);
+
 	Invalidate(FALSE);
 
 	CMiniView*		pMiniView = dynamic_cast<CMiniView*>(pMainFrm->m_SecondSplitter.GetPane(0, 0));
@@ -192,6 +182,4 @@ void CToolView::OnLButtonDown(UINT nFlags, CPoint point)
 void CToolView::OnUpdate(CView* /*pSender*/, LPARAM /*lHint*/, CObject* /*pHint*/)
 {
 	// TODO: 여기에 특수화된 코드를 추가 및/또는 기본 클래스를 호출합니다.
-	OBJ->Update();
-	OBJ->Late_Update();
 }

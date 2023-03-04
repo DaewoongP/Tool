@@ -55,9 +55,6 @@
     <Filter Include="05. Etc\00. Obj\00. MyTerrain">
       <UniqueIdentifier>{7cd6d40a-b11b-479e-9530-32a8291b6e90}</UniqueIdentifier>
     </Filter>
-    <Filter Include="05. Etc\00. Obj\Manager">
-      <UniqueIdentifier>{d15269c1-5d0a-4f41-953f-631870801934}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainFrm.h">
@@ -111,9 +108,6 @@
     <ClInclude Include="Obj.h">
       <Filter>05. Etc\00. Obj</Filter>
     </ClInclude>
-    <ClInclude Include="ObjMgr.h">
-      <Filter>05. Etc\00. Obj\Manager</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MainFrm.cpp">
@@ -160,9 +154,6 @@
     </ClCompile>
     <ClCompile Include="Obj.cpp">
       <Filter>05. Etc\00. Obj</Filter>
-    </ClCompile>
-    <ClCompile Include="ObjMgr.cpp">
-      <Filter>05. Etc\00. Obj\Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
