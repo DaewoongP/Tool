@@ -16,6 +16,7 @@ public:
 
 public:
 	vector<TILE*>&			Get_vecTile() { return m_vecTile; }
+	void		Set_Render(bool _bRender) { m_bRender = _bRender; }
 public:
 	void		TileChange(const D3DXVECTOR3& vPos, const BYTE& byDrawID);
 	int			GetTileIndex(const D3DXVECTOR3& vPos);
@@ -24,5 +25,6 @@ private:
 	void		Set_Ratio(D3DXMATRIX* pOut, const float& fRatioX, const float& fRatioY);
 private:
 	vector<TILE*>			m_vecTile;
+	bool					m_bRender;
 };
 

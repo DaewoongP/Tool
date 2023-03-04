@@ -55,6 +55,11 @@
     <Filter Include="05. Etc\00. Obj\00. MyTerrain">
       <UniqueIdentifier>{7cd6d40a-b11b-479e-9530-32a8291b6e90}</UniqueIdentifier>
     </Filter>
+    <Filter Include="05. Etc\02. Grid">
+      <UniqueIdentifier>{fd3df420-8136-418b-a7d1-2e9856cdc9d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. View\MyForm\MapTool">
+      <UniqueIdentifier>{922acf51-84dc-4269-93fc-a8b4b9a05ea8}</UniqueIdentifier>
     <Filter Include="01. View\MyForm\ObjectTool">
       <UniqueIdentifier>{2286ece2-6f2a-4309-96b5-a218546550fb}</UniqueIdentifier>
     </Filter>
@@ -111,6 +116,11 @@
     <ClInclude Include="Obj.h">
       <Filter>05. Etc\00. Obj</Filter>
     </ClInclude>
+    <ClInclude Include="Grid.h">
+      <Filter>05. Etc\02. Grid</Filter>
+    </ClInclude>
+    <ClInclude Include="MapTool.h">
+      <Filter>01. View\MyForm\MapTool</Filter>
     <ClInclude Include="ObjectTool.h">
       <Filter>01. View\MyForm\ObjectTool</Filter>
     </ClInclude>
@@ -161,6 +171,11 @@
     <ClCompile Include="Obj.cpp">
       <Filter>05. Etc\00. Obj</Filter>
     </ClCompile>
+    <ClCompile Include="Grid.cpp">
+      <Filter>05. Etc\02. Grid</Filter>
+    </ClCompile>
+    <ClCompile Include="MapTool.cpp">
+      <Filter>01. View\MyForm\MapTool</Filter>
     <ClCompile Include="ObjectTool.cpp">
       <Filter>01. View\MyForm\ObjectTool</Filter>
     </ClCompile>

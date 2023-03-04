@@ -1,10 +1,13 @@
-// MyForm.cpp : ±¸Çö ÆÄÀÏÀÔ´Ï´Ù.
+// MyForm.cpp : êµ¬í˜„ íŒŒì¼ì…ë‹ˆë‹¤.
 //
 
 #include "stdafx.h"
 #include "Tool.h"
 #include "MyForm.h"
-
+#include "MainFrm.h"
+#include "MiniView.h"
+#include "ToolView.h"
+#include "MyTerrain.h"
 
 // CMyForm
 
@@ -23,14 +26,17 @@ CMyForm::~CMyForm()
 void CMyForm::DoDataExchange(CDataExchange* pDX)
 {
 	CFormView::DoDataExchange(pDX);
+	DDX_Control(pDX, IDC_CHECK1, m_GridCheck);
 }
 
 BEGIN_MESSAGE_MAP(CMyForm, CFormView)
+	ON_BN_CLICKED(IDC_CHECK1, &CMyForm::OnGridCheckBox)
+	ON_BN_CLICKED(IDC_BUTTON2, &CMyForm::OnMapTool)
 	ON_BN_CLICKED(IDC_BUTTON1, &CMyForm::OnObjectTool)
 END_MESSAGE_MAP()
 
 
-// CMyForm Áø´ÜÀÔ´Ï´Ù.
+// CMyForm ì§„ë‹¨ì…ë‹ˆë‹¤.
 
 #ifdef _DEBUG
 void CMyForm::AssertValid() const
@@ -47,23 +53,48 @@ void CMyForm::Dump(CDumpContext& dc) const
 #endif //_DEBUG
 
 
-// CMyForm ¸Ş½ÃÁö Ã³¸®±âÀÔ´Ï´Ù.
+// CMyForm ë©”ì‹œì§€ ì²˜ë¦¬ê¸°ì…ë‹ˆë‹¤.
 
 
 void CMyForm::OnInitialUpdate()
 {
 	CFormView::OnInitialUpdate();
 
-	m_Font.CreatePointFont(100, L"°íµñ");
-	//GetDlgItem(IDC_BUTTON1)->SetFont(&m_Font);
+	m_Font.CreatePointFont(100, L"ê³ ë”•");
+}
+
+
+void CMyForm::OnGridCheckBox()
+{
+	CMainFrame*		pMainFrm = dynamic_cast<CMainFrame*>(AfxGetApp()->GetMainWnd());
+	CToolView*		pToolView = dynamic_cast<CToolView*>(pMainFrm->m_MainSplitter.GetPane(0, 0));
+	if (!m_GridCheck.GetCheck())
+		dynamic_cast<CMyTerrain*>(pToolView->m_pTerrain)->Set_Render(false);
+	else
+		dynamic_cast<CMyTerrain*>(pToolView->m_pTerrain)->Set_Render(true);
+
+	pToolView->Invalidate(FALSE);
+
+	CMiniView*		pMiniView = dynamic_cast<CMiniView*>(pMainFrm->m_SecondSplitter.GetPane(0, 0));
+
+	pMiniView->Invalidate(FALSE);
+}
+
+
+void CMyForm::OnMapTool()
+{
+	if (nullptr == m_MapTool.GetSafeHwnd())
+		m_MapTool.Create(IDD_MAPTOOL);
+
+	m_MapTool.ShowWindow(SW_SHOW);
 }
 
 
 void CMyForm::OnObjectTool()
 {
-	// TODO: ¿©±â¿¡ ÄÁÆ®·Ñ ¾Ë¸² Ã³¸®±â ÄÚµå¸¦ Ãß°¡ÇÕ´Ï´Ù.
+	// TODO: ì—¬ê¸°ì— ì»¨íŠ¸ë¡¤ ì•Œë¦¼ ì²˜ë¦¬ê¸° ì½”ë“œë¥¼ ì¶”ê°€í•©ë‹ˆë‹¤.
 	if (nullptr == m_ObjectTool.GetSafeHwnd())
 		m_ObjectTool.Create(IDD_OBJECTTOOL);
 
-	m_ObjectTool.ShowWindow(SW_SHOW);	// Ã¢ ¸ğ¾çÀ¸·Î Ãâ·Â
+	m_ObjectTool.ShowWindow(SW_SHOW);	// ì°½ ëª¨ì–‘ìœ¼ë¡œ ì¶œë ¥
 }
