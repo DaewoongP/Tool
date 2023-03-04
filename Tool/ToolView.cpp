@@ -14,6 +14,7 @@
 #include "MainFrm.h"
 #include "MyTerrain.h"
 #include "MiniView.h"
+#include "Grid.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -132,6 +133,8 @@ void CToolView::OnInitialUpdate()
 		return;
 	}
 	m_pTerrain->Set_View(this);
+
+	
 }
 
 // CToolView ±×¸®±â

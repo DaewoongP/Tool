@@ -8,6 +8,7 @@ CDevice::CDevice()
 	, m_pDevice(nullptr)
 	, m_pSprite(nullptr)
 	, m_pFont(nullptr)
+	, m_pLine(nullptr)
 {
 }
 
@@ -79,6 +80,16 @@ HRESULT CDevice::InitDevice()
 		AfxMessageBox(L"D3DXCreateFontIndirect Failed");
 		return E_FAIL;
 	}
+
+	//  라인 컴 객체
+
+	if (FAILED(D3DXCreateLine(m_pDevice, &m_pLine)))
+	{
+		AfxMessageBox(L"D3DXCreateLine Failed");
+		return E_FAIL;
+	}
+
+	m_pLine->SetWidth(2.f);
 		
 	return S_OK;
 }
@@ -96,11 +107,12 @@ void CDevice::Render_Begin()
 
 	// 알파 테스트가 유효한 상황에서 알파 블랜딩을 지원하는 옵션
 	m_pSprite->Begin(D3DXSPRITE_ALPHABLEND);
-
+	m_pLine->Begin();
 }
 
 void CDevice::Render_End(HWND hWnd)
 {
+	m_pLine->End();
 	m_pSprite->End();
 	m_pDevice->EndScene();
 	m_pDevice->Present(nullptr, nullptr, hWnd, nullptr);
@@ -112,6 +124,7 @@ void CDevice::Render_End(HWND hWnd)
 
 void CDevice::Release(void)
 {
+	Safe_Release(m_pLine);
 	Safe_Release(m_pFont);
 	Safe_Release(m_pSprite);
 	Safe_Release(m_pDevice);

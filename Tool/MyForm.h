@@ -1,6 +1,7 @@
 #pragma once
+#include "afxwin.h"
+#include "MapTool.h"
 // CMyForm Æû ºäÀÔ´Ï´Ù.
-
 class CMyForm : public CFormView
 {
 	DECLARE_DYNCREATE(CMyForm)
@@ -26,8 +27,12 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	virtual void OnInitialUpdate();
+	afx_msg void OnGridCheckBox();
+	afx_msg void OnMapTool();
 public:
 	CFont				m_Font;
+	CButton				m_GridCheck;
+	CMapTool			m_MapTool;
 };
 
 
