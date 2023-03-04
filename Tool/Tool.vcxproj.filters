@@ -60,6 +60,8 @@
     </Filter>
     <Filter Include="01. View\MyForm\MapTool">
       <UniqueIdentifier>{922acf51-84dc-4269-93fc-a8b4b9a05ea8}</UniqueIdentifier>
+    <Filter Include="01. View\MyForm\ObjectTool">
+      <UniqueIdentifier>{2286ece2-6f2a-4309-96b5-a218546550fb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -119,6 +121,8 @@
     </ClInclude>
     <ClInclude Include="MapTool.h">
       <Filter>01. View\MyForm\MapTool</Filter>
+    <ClInclude Include="ObjectTool.h">
+      <Filter>01. View\MyForm\ObjectTool</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -172,6 +176,8 @@
     </ClCompile>
     <ClCompile Include="MapTool.cpp">
       <Filter>01. View\MyForm\MapTool</Filter>
+    <ClCompile Include="ObjectTool.cpp">
+      <Filter>01. View\MyForm\ObjectTool</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
