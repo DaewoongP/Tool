@@ -31,13 +31,13 @@ CMapTool::~CMapTool()
 void CMapTool::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
-	DDX_Control(pDX, IDC_LIST2, m_MapListBox);
+	DDX_Control(pDX, IDC_MAP_SEL_LIST, m_MapListBox);
 	DDX_Control(pDX, IDC_MAP_PICTURE, m_MapPicture);
 }
 
 
 BEGIN_MESSAGE_MAP(CMapTool, CDialog)
-	ON_LBN_SELCHANGE(IDC_LIST2, &CMapTool::OnListBoxSelected)
+	ON_LBN_SELCHANGE(IDC_MAP_SEL_LIST, &CMapTool::OnListBoxSelected)
 END_MESSAGE_MAP()
 
 

@@ -26,12 +26,12 @@ CMyForm::~CMyForm()
 void CMyForm::DoDataExchange(CDataExchange* pDX)
 {
 	CFormView::DoDataExchange(pDX);
-	DDX_Control(pDX, IDC_CHECK1, m_GridCheck);
+	DDX_Control(pDX, IDC_GRID_CHECK, m_GridCheck);
 }
 
 BEGIN_MESSAGE_MAP(CMyForm, CFormView)
-	ON_BN_CLICKED(IDC_CHECK1, &CMyForm::OnGridCheckBox)
-	ON_BN_CLICKED(IDC_BUTTON1, &CMyForm::OnMapTool)
+	ON_BN_CLICKED(IDC_GRID_CHECK, &CMyForm::OnGridCheckBox)
+	ON_BN_CLICKED(IDC_MAPTOOL_BUTTON, &CMyForm::OnMapTool)
 END_MESSAGE_MAP()
 
 
