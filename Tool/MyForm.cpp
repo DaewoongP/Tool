@@ -1,4 +1,4 @@
-// MyForm.cpp : êµ¬í˜„ íŒŒì¼ì…ë‹ˆë‹¤.
+// MyForm.cpp : ±¸Çö ÆÄÀÏÀÔ´Ï´Ù.
 //
 
 #include "stdafx.h"
@@ -31,12 +31,11 @@ void CMyForm::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CMyForm, CFormView)
 	ON_BN_CLICKED(IDC_CHECK1, &CMyForm::OnGridCheckBox)
-	ON_BN_CLICKED(IDC_BUTTON2, &CMyForm::OnMapTool)
-	ON_BN_CLICKED(IDC_BUTTON1, &CMyForm::OnObjectTool)
+	ON_BN_CLICKED(IDC_BUTTON1, &CMyForm::OnMapTool)
 END_MESSAGE_MAP()
 
 
-// CMyForm ì§„ë‹¨ì…ë‹ˆë‹¤.
+// CMyForm Áø´ÜÀÔ´Ï´Ù.
 
 #ifdef _DEBUG
 void CMyForm::AssertValid() const
@@ -53,14 +52,14 @@ void CMyForm::Dump(CDumpContext& dc) const
 #endif //_DEBUG
 
 
-// CMyForm ë©”ì‹œì§€ ì²˜ë¦¬ê¸°ì…ë‹ˆë‹¤.
+// CMyForm ¸Ş½ÃÁö Ã³¸®±âÀÔ´Ï´Ù.
 
 
 void CMyForm::OnInitialUpdate()
 {
 	CFormView::OnInitialUpdate();
 
-	m_Font.CreatePointFont(100, L"ê³ ë”•");
+	m_Font.CreatePointFont(100, L"°íµñ");
 }
 
 
@@ -87,14 +86,4 @@ void CMyForm::OnMapTool()
 		m_MapTool.Create(IDD_MAPTOOL);
 
 	m_MapTool.ShowWindow(SW_SHOW);
-}
-
-
-void CMyForm::OnObjectTool()
-{
-	// TODO: ì—¬ê¸°ì— ì»¨íŠ¸ë¡¤ ì•Œë¦¼ ì²˜ë¦¬ê¸° ì½”ë“œë¥¼ ì¶”ê°€í•©ë‹ˆë‹¤.
-	if (nullptr == m_ObjectTool.GetSafeHwnd())
-		m_ObjectTool.Create(IDD_OBJECTTOOL);
-
-	m_ObjectTool.ShowWindow(SW_SHOW);	// ì°½ ëª¨ì–‘ìœ¼ë¡œ ì¶œë ¥
 }
