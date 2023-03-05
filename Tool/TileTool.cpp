@@ -1,4 +1,4 @@
-// TileTool.cpp : 구현 파일입니다.
+// TileTool.cpp : 
 //
 
 #include "stdafx.h"
@@ -9,15 +9,11 @@
 #include "MainFrm.h"
 #include "ToolView.h"
 
-
-// CTileTool 대화 상자입니다.
-
 IMPLEMENT_DYNAMIC(CTileTool, CDialog)
 
 CTileTool::CTileTool(CWnd* pParent /*=NULL*/)
 	: CDialog(IDD_TILETOOL, pParent)
 {
-	// 초기값 설정
 	m_strTile = L"Tile0";
 }
 
@@ -44,9 +40,6 @@ BEGIN_MESSAGE_MAP(CTileTool, CDialog)
 END_MESSAGE_MAP()
 
 
-// CTileTool 메시지 처리기입니다.
-
-
 BOOL CTileTool::OnInitDialog()
 {
 	CDialog::OnInitDialog();
@@ -60,22 +53,18 @@ BOOL CTileTool::OnInitDialog()
 void CTileTool::OnBnClickedTileSplit()
 {
 	CMenu menu;
-	// 팝업 메뉴를 생성한다.
 	menu.CreatePopupMenu();
 	
 	CString str;
 	for (int i = 0; i < CFileInfo::DirFileCnt(L"../Texture/Tile"); ++i) {
 		str.Format(_T("Tile%d"), i);
-		// 팝업 메뉴에 메뉴를 추가한다.
 		menu.AppendMenu(MF_STRING, 20000 + i, (LPCTSTR)str);
 	}
 
-	// 스플릿버튼의 위치값
 	RECT rc = {};
 	GetDlgItem(IDC_TILE_SPLIT)->GetWindowRect(&rc);
 	menu.TrackPopupMenu(TPM_LEFTALIGN | TPM_RIGHTBUTTON, rc.left, rc.top + 25, this);
 
-	// 생성된 팝업 메뉴를 삭제한다.
 	menu.DestroyMenu();
 }
 
@@ -86,8 +75,6 @@ BOOL CTileTool::OnCommand(WPARAM wParam, LPARAM lParam)
 	{
 		int id = LPARAM(wParam);
 		TRACE(_T("id: %d\n"), id);
-
-		// 스플릿 버튼 메뉴의 아이디 값에 따른 이벤트 처리
 		if (id >= 20000 && id < 20000 + CFileInfo::DirFileCnt(L"../Texture/Tile"))
 		{
 			CString strNum;
@@ -98,9 +85,8 @@ BOOL CTileTool::OnCommand(WPARAM wParam, LPARAM lParam)
 			strNum = strNum.Right(1);
 			m_strTile += strNum;
 
-			// 버튼 타이틀 변경
 			m_TileSplit.SetWindowText(m_strTile);
-			AfxMessageBox(_T("타일 : ") + m_strTile);
+			AfxMessageBox(_T("?�??: ") + m_strTile);
 		}
 	}
 	return CDialog::OnCommand(wParam, lParam);
@@ -119,12 +105,12 @@ void CTileTool::OnSaveBtnClicked()
 
 	pTile.byDrawID = _ttoi(m_strTile.Right(1));
 
-	CFileDialog		Dlg(FALSE,		// FALSE(다른 이름으로 저장) , TRUE(불러오기)
-		L"dat",		// 기본 파일 확장자명(명시적으로 확장자명을 기입하지 않을 경우, 이 확장자명으로 자동 삽입)
-		L"*.dat", // 대화상자에 표시될 최초 파일명
-		OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, // OFN_HIDEREADONLY(읽기 전용 체크박스 숨김), OFN_OVERWRITEPROMPT(중복 파일로 저장 시 경고 메세지 띄움)
-		L"Data Files(*.dat)|*.dat||",  // 대화 상자에 표시될 파일 형식
-		this); // 부모 윈도우의 주소
+	CFileDialog		Dlg(FALSE,
+		L"dat",	
+		L"*.dat",
+		OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT,
+		L"Data Files(*.dat)|*.dat||",
+		this);
 
 	TCHAR	szPath[MAX_PATH] = L"";
 	GetCurrentDirectory(MAX_PATH, szPath);
@@ -133,11 +119,8 @@ void CTileTool::OnSaveBtnClicked()
 
 	Dlg.m_ofn.lpstrInitialDir = szPath;
 
-
-	// DoModal : 대화 상자를 실행
 	if (IDOK == Dlg.DoModal())
 	{
-		// GetPathName : 선택된 경로를 반환
 		CString		str = Dlg.GetPathName().GetString();
 		const TCHAR*	pGetPath = str.GetString();
 
@@ -152,7 +135,6 @@ void CTileTool::OnSaveBtnClicked()
 
 		CloseHandle(hFile);
 	}
-	// 저장후 리스트 갱신
 	FileFinder();
 }
 
@@ -181,7 +163,6 @@ void CTileTool::OnTileListBoxClicked()
 {
 	UpdateData(TRUE);
 	TILE	pTile;
-	// 리스트박스의 선택한 셀의 텍스트를 가져옴
 	CString	strLoad;
 	m_TileListBox.GetText(m_TileListBox.GetCurSel(), strLoad);
 	
@@ -245,7 +226,7 @@ void CTileTool::OnDeleteBtnClicked()
 		if (DeleteFile(pGetPath) == TRUE)
 		{
 			CString strDel;
-			strDel = m_strTile + L" 파일 삭제 완료";
+			strDel = m_strTile + L" ?�일 ??�� ?�료";
 			m_TileListBox.DeleteString(m_TileListBox.GetCurSel());
 			AfxMessageBox(strDel);
 		}
