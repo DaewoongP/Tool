@@ -22,7 +22,7 @@ public:
 	void		Set_MainView(CToolView* pMainView) { m_pMainView = pMainView; }
 	void		Set_Ratio(D3DXMATRIX* pOut, const float& fRatioX, const float& fRatioY);
 public:
-	void		TileChange(const D3DXVECTOR3& vPos, const BYTE& byDrawID);
+	void		TileChange(const D3DXVECTOR3& vPos, const BYTE& byDrawID, const BYTE& byOption = 1);
 	int			GetTileIndex(const D3DXVECTOR3& vPos);
 	bool		Picking(const D3DXVECTOR3& vPos, const int& iIndex);
 	bool		Picking_Dot(const D3DXVECTOR3& vPos, const int& iIndex);
