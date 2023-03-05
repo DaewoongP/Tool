@@ -1,8 +1,6 @@
 #pragma once
 // CMyForm 폼 뷰입니다.
 
-#include "ObjectTool.h"
-
 class CMyForm : public CFormView
 {
 	DECLARE_DYNCREATE(CMyForm)
@@ -24,14 +22,12 @@ public:
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 지원입니다.
-	afx_msg void OnObjectTool();
 
 	DECLARE_MESSAGE_MAP()
 public:
 	virtual void OnInitialUpdate();
 public:
 	CFont				m_Font;
-	CObjectTool			m_ObjectTool;
 };
 
 

@@ -16,8 +16,8 @@ typedef D3DXMATRIX    MATRIX;
 #define		TILECX			94
 #define		TILECY			48
 
-#define		TILEX			20
-#define		TILEY			45
+#define		TILEX			45
+#define		TILEY			30
 
 #define		MIN_STR			64
 #define		MAX_STR			256
@@ -60,3 +60,4 @@ extern HWND		g_hWnd;
 
 #define		DEVICE	CDevice::Get_Instance()
 #define		TEXTURE	CTextureMgr::Get_Instance()
+#define		KEY		CKeyMgr::Get_Instance()

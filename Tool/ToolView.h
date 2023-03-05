@@ -4,7 +4,7 @@
 
 #pragma once
 
-class CObj;
+class CMyTerrain;
 class CToolDoc;
 class CToolView : public CScrollView
 {
@@ -47,8 +47,7 @@ public:
 	afx_msg void OnDestroy();
 	
 public:
-	CObj*			m_pTerrain;
-	virtual void OnUpdate(CView* /*pSender*/, LPARAM /*lHint*/, CObject* /*pHint*/);
+	CMyTerrain*			m_pTerrain;
 };
 
 #ifndef _DEBUG  // ToolView.cpp의 디버그 버전

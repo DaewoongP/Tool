@@ -50,13 +50,13 @@
       <UniqueIdentifier>{5b4a4b7b-b750-4578-8e47-e84eab3b3eec}</UniqueIdentifier>
     </Filter>
     <Filter Include="05. Etc\00. Obj">
-      <UniqueIdentifier>{9ef79a32-53ce-4e8f-97a3-a3d1d608ad98}</UniqueIdentifier>
+      <UniqueIdentifier>{94194d5a-468c-41b3-92bb-c690e8443361}</UniqueIdentifier>
     </Filter>
     <Filter Include="05. Etc\00. Obj\00. MyTerrain">
       <UniqueIdentifier>{7cd6d40a-b11b-479e-9530-32a8291b6e90}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01. View\MyForm\ObjectTool">
-      <UniqueIdentifier>{2286ece2-6f2a-4309-96b5-a218546550fb}</UniqueIdentifier>
+    <Filter Include="06. Design">
+      <UniqueIdentifier>{a709a25c-d60e-4d35-a5f6-c55c41b15412}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -111,8 +111,8 @@
     <ClInclude Include="Obj.h">
       <Filter>05. Etc\00. Obj</Filter>
     </ClInclude>
-    <ClInclude Include="ObjectTool.h">
-      <Filter>01. View\MyForm\ObjectTool</Filter>
+    <ClInclude Include="KeyMgr.h">
+      <Filter>06. Design</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -161,8 +161,8 @@
     <ClCompile Include="Obj.cpp">
       <Filter>05. Etc\00. Obj</Filter>
     </ClCompile>
-    <ClCompile Include="ObjectTool.cpp">
-      <Filter>01. View\MyForm\ObjectTool</Filter>
+    <ClCompile Include="KeyMgr.cpp">
+      <Filter>06. Design</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

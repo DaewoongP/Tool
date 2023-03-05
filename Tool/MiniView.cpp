@@ -34,11 +34,11 @@ void CMiniView::OnDraw(CDC* pDC)
 	CMainFrame*		pMainFrm = dynamic_cast<CMainFrame*>(AfxGetApp()->GetMainWnd());
 	CToolView*		pMainView = dynamic_cast<CToolView*>(pMainFrm->m_MainSplitter.GetPane(0, 0));
 
-	CObj*		pTerrain = pMainView->m_pTerrain;
+	CMyTerrain*		pTerrain = pMainView->m_pTerrain;
 
 	DEVICE->Render_Begin();
 
-	dynamic_cast<CMyTerrain*>(pTerrain)->Mini_Render();
+	pTerrain->Mini_Render();
 
 	DEVICE->Render_End(m_hWnd);
 }

@@ -199,13 +199,13 @@
   <ItemGroup>
     <ClInclude Include="Device.h" />
     <ClInclude Include="FileInfo.h" />
+    <ClInclude Include="KeyMgr.h" />
     <ClInclude Include="MainFrm.h" />
     <ClInclude Include="MiniView.h" />
     <ClInclude Include="MultiTexture.h" />
     <ClInclude Include="MyForm.h" />
     <ClInclude Include="MyTerrain.h" />
     <ClInclude Include="Obj.h" />
-    <ClInclude Include="ObjectTool.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="SingleTexture.h" />
     <ClInclude Include="stdafx.h" />
@@ -219,13 +219,13 @@
   <ItemGroup>
     <ClCompile Include="Device.cpp" />
     <ClCompile Include="FileInfo.cpp" />
+    <ClCompile Include="KeyMgr.cpp" />
     <ClCompile Include="MainFrm.cpp" />
     <ClCompile Include="MiniView.cpp" />
     <ClCompile Include="MultiTexture.cpp" />
     <ClCompile Include="MyForm.cpp" />
     <ClCompile Include="MyTerrain.cpp" />
     <ClCompile Include="Obj.cpp" />
-    <ClCompile Include="ObjectTool.cpp" />
     <ClCompile Include="SingleTexture.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
