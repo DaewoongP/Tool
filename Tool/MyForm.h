@@ -1,6 +1,8 @@
 #pragma once
 // CMyForm Æû ºäÀÔ´Ï´Ù.
-
+#include "MapTool.h"
+#include "TileTool.h"
+#include "ObjTool.h"
 class CMyForm : public CFormView
 {
 	DECLARE_DYNCREATE(CMyForm)
@@ -26,8 +28,12 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	virtual void OnInitialUpdate();
+	afx_msg void OnDetailBtnClicked();
 public:
 	CFont				m_Font;
+	CMapTool			m_MapTool;
+	CTileTool			m_TileTool;
+	CObjTool			m_ObjTool;
 };
 
 

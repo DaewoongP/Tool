@@ -58,6 +58,15 @@
     <Filter Include="06. Design">
       <UniqueIdentifier>{a709a25c-d60e-4d35-a5f6-c55c41b15412}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. View\MyForm\MapTool">
+      <UniqueIdentifier>{5dcdba16-7754-4915-a406-87dec6a1ead4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. View\MyForm\ObjTool">
+      <UniqueIdentifier>{52e236af-f17d-499b-a951-e118b44f23b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. View\MyForm\TileTool">
+      <UniqueIdentifier>{1d882743-6079-4367-818e-fa4aca41bc96}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainFrm.h">
@@ -114,6 +123,15 @@
     <ClInclude Include="KeyMgr.h">
       <Filter>06. Design</Filter>
     </ClInclude>
+    <ClInclude Include="MapTool.h">
+      <Filter>01. View\MyForm\MapTool</Filter>
+    </ClInclude>
+    <ClInclude Include="TileTool.h">
+      <Filter>01. View\MyForm\TileTool</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjTool.h">
+      <Filter>01. View\MyForm\ObjTool</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MainFrm.cpp">
@@ -163,6 +181,15 @@
     </ClCompile>
     <ClCompile Include="KeyMgr.cpp">
       <Filter>06. Design</Filter>
+    </ClCompile>
+    <ClCompile Include="MapTool.cpp">
+      <Filter>01. View\MyForm\MapTool</Filter>
+    </ClCompile>
+    <ClCompile Include="TileTool.cpp">
+      <Filter>01. View\MyForm\TileTool</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjTool.cpp">
+      <Filter>01. View\MyForm\ObjTool</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

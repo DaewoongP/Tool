@@ -13,12 +13,7 @@ public:
 	virtual void Render(void) PURE;
 	virtual void Mini_Render(void) PURE;
 public:
-	void		Set_View(CToolView* pMainView) 
-	{ 
-		m_pMainView = pMainView;
-		m_vScroll.x = (float)m_pMainView->GetScrollPos(0);
-		m_vScroll.y = (float)m_pMainView->GetScrollPos(1);
-	}
+	void		Set_View(CToolView* pMainView) { m_pMainView = pMainView; }
 protected:
 	CToolView*				m_pMainView;
 	INFO					m_tInfo;

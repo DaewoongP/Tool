@@ -7,14 +7,24 @@
 #define IDR_MAINFRAME                   128
 #define IDR_ToolTYPE                    130
 #define IDD_MYFORM                      310
+#define IDD_MAPTOOL                     311
+#define IDD_TILETOOL                    312
+#define IDD_OBJTOOL                     313
+#define IDC_MAIN_TREE                   1001
+#define IDC_MAIN_LB                     1002
+#define IDC_FILE_PC                     1003
+#define IDC_FILE_DETAIL_BTN             1004
+#define IDC_GRID_CHECK                  1005
+#define IDC_BUTTON1                     1006
+#define IDC_MAP_SAVE_BTN                1006
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        310
+#define _APS_NEXT_RESOURCE_VALUE        312
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1000
-#define _APS_NEXT_SYMED_VALUE           311
+#define _APS_NEXT_CONTROL_VALUE         1007
+#define _APS_NEXT_SYMED_VALUE           314
 #endif
 #endif
