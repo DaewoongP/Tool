@@ -1,5 +1,4 @@
 #pragma once
-// CMyForm 폼 뷰입니다.
 #include "MapTool.h"
 #include "TileTool.h"
 #include "ObjTool.h"
@@ -49,4 +48,5 @@ public:
 	CListBox				m_ListBox;
 	wstring					m_wstrCurDir;
 	CStatic					m_Picture;
+	CButton					m_DetailBtn;
 };

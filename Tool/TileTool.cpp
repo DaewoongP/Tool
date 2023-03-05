@@ -76,6 +76,7 @@ BOOL CTileTool::OnCommand(WPARAM wParam, LPARAM lParam)
 
 			strNum = strNum.Right(2);
 			strTile += strNum;
+			// 버튼 타이틀 변경
 			m_TileSplit.SetWindowText(strTile);
 			AfxMessageBox(_T("타일 : ") + strTile);
 		}

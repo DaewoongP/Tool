@@ -22,7 +22,6 @@
 #define IDC_TILE_COLL_RADIO1            1010
 #define IDC_TILE_COLL_RADIO2            1011
 
-
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
