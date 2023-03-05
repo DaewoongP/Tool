@@ -80,7 +80,6 @@ void CMyForm::OnInitialUpdate()
 
 	m_Tree.InsertItem(TEXT("Texture"), 0, 0, TVI_ROOT, TVI_LAST);
 	Make_Tree(wstrPath, m_Tree.GetRootItem());
-
 }
 
 
@@ -247,4 +246,20 @@ void CMyForm::OnDestroy()
 	CFormView::OnDestroy();
 
 	// TODO: 여기에 메시지 처리기 코드를 추가합니다.
+}
+
+
+void CMyForm::OnGridCheckClicked()
+{
+	// üũ �ڽ��� Ŭ���ϸ� �� üũ�ڽ� ���¿� ��� ToolView�� MiniView�� ���ڸ� ONOFF�� ���
+	CMainFrame*		pMainFrm = dynamic_cast<CMainFrame*>(AfxGetApp()->GetMainWnd());
+	CToolView*		pToolView = dynamic_cast<CToolView*>(pMainFrm->m_MainSplitter.GetPane(0, 0));
+	CMiniView*		pMiniView = dynamic_cast<CMiniView*>(pMainFrm->m_SecondSplitter.GetPane(0, 0));
+	
+	if (m_GirdRender.GetCheck())
+		dynamic_cast<CMyTerrain*>(pToolView->m_pTerrain)->Set_Render(true);
+	else
+		dynamic_cast<CMyTerrain*>(pToolView->m_pTerrain)->Set_Render(false);
+	pToolView->Invalidate(FALSE);
+	pMiniView->Invalidate(FALSE);
 }
