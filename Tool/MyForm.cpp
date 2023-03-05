@@ -31,6 +31,7 @@ void CMyForm::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_MAIN_TREE, m_Tree);
 	DDX_Control(pDX, IDC_MAIN_LB, m_ListBox);
 	DDX_Control(pDX, IDC_FILE_PC, m_Picture);
+	DDX_Control(pDX, IDC_FILE_DETAIL_BTN, m_DetailBtn);
 }
 
 BEGIN_MESSAGE_MAP(CMyForm, CFormView)
@@ -237,6 +238,15 @@ void CMyForm::OnTreeCtrl(NMHDR *pNMHDR, LRESULT *pResult)
 		wstring		wstrFileName = Find.GetFileTitle().GetString();
 
 		m_ListBox.AddString(wstrFileName.c_str());
+	}
+
+	CString cstrClicked = m_Tree.GetItemText(m_Tree.GetSelectedItem());
+	if (cstrClicked == TEXT("Object") || 
+		cstrClicked == TEXT("Tile") ||
+		cstrClicked == TEXT("Map"))
+	{
+		cstrClicked = cstrClicked + L" Detail";
+		m_DetailBtn.SetWindowText(cstrClicked);
 	}
 }
 
