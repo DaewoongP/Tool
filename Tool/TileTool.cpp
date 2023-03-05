@@ -1,4 +1,4 @@
-// TileTool.cpp : ±¸Çö ÆÄÀÏÀÔ´Ï´Ù.
+// TileTool.cpp : êµ¬í˜„ íŒŒì¼ì…ë‹ˆë‹¤.
 //
 
 #include "stdafx.h"
@@ -10,14 +10,14 @@
 #include "ToolView.h"
 
 
-// CTileTool ´ëÈ­ »óÀÚÀÔ´Ï´Ù.
+// CTileTool ëŒ€í™” ìƒìì…ë‹ˆë‹¤.
 
 IMPLEMENT_DYNAMIC(CTileTool, CDialog)
 
 CTileTool::CTileTool(CWnd* pParent /*=NULL*/)
 	: CDialog(IDD_TILETOOL, pParent)
 {
-	// ÃÊ±â°ª ¼³Á¤
+	// ì´ˆê¸°ê°’ ì„¤ì •
 	m_strTile = L"Tile0";
 }
 
@@ -44,7 +44,7 @@ BEGIN_MESSAGE_MAP(CTileTool, CDialog)
 END_MESSAGE_MAP()
 
 
-// CTileTool ¸Ş½ÃÁö Ã³¸®±âÀÔ´Ï´Ù.
+// CTileTool ë©”ì‹œì§€ ì²˜ë¦¬ê¸°ì…ë‹ˆë‹¤.
 
 
 BOOL CTileTool::OnInitDialog()
@@ -60,22 +60,22 @@ BOOL CTileTool::OnInitDialog()
 void CTileTool::OnBnClickedTileSplit()
 {
 	CMenu menu;
-	// ÆË¾÷ ¸Ş´º¸¦ »ı¼ºÇÑ´Ù.
+	// íŒì—… ë©”ë‰´ë¥¼ ìƒì„±í•œë‹¤.
 	menu.CreatePopupMenu();
 	
 	CString str;
 	for (int i = 0; i < CFileInfo::DirFileCnt(L"../Texture/Tile"); ++i) {
 		str.Format(_T("Tile%d"), i);
-		// ÆË¾÷ ¸Ş´º¿¡ ¸Ş´º¸¦ Ãß°¡ÇÑ´Ù.
+		// íŒì—… ë©”ë‰´ì— ë©”ë‰´ë¥¼ ì¶”ê°€í•œë‹¤.
 		menu.AppendMenu(MF_STRING, 20000 + i, (LPCTSTR)str);
 	}
 
-	// ½ºÇÃ¸´¹öÆ°ÀÇ À§Ä¡°ª
+	// ìŠ¤í”Œë¦¿ë²„íŠ¼ì˜ ìœ„ì¹˜ê°’
 	RECT rc = {};
 	GetDlgItem(IDC_TILE_SPLIT)->GetWindowRect(&rc);
 	menu.TrackPopupMenu(TPM_LEFTALIGN | TPM_RIGHTBUTTON, rc.left, rc.top + 25, this);
 
-	// »ı¼ºµÈ ÆË¾÷ ¸Ş´º¸¦ »èÁ¦ÇÑ´Ù.
+	// ìƒì„±ëœ íŒì—… ë©”ë‰´ë¥¼ ì‚­ì œí•œë‹¤.
 	menu.DestroyMenu();
 }
 
@@ -87,7 +87,7 @@ BOOL CTileTool::OnCommand(WPARAM wParam, LPARAM lParam)
 		int id = LPARAM(wParam);
 		TRACE(_T("id: %d\n"), id);
 
-		// ½ºÇÃ¸´ ¹öÆ° ¸Ş´ºÀÇ ¾ÆÀÌµğ °ª¿¡ µû¸¥ ÀÌº¥Æ® Ã³¸®
+		// ìŠ¤í”Œë¦¿ ë²„íŠ¼ ë©”ë‰´ì˜ ì•„ì´ë”” ê°’ì— ë”°ë¥¸ ì´ë²¤íŠ¸ ì²˜ë¦¬
 		if (id >= 20000 && id < 20000 + CFileInfo::DirFileCnt(L"../Texture/Tile"))
 		{
 			CString strNum;
@@ -98,9 +98,9 @@ BOOL CTileTool::OnCommand(WPARAM wParam, LPARAM lParam)
 			strNum = strNum.Right(1);
 			m_strTile += strNum;
 
-			// ¹öÆ° Å¸ÀÌÆ² º¯°æ
+			// ë²„íŠ¼ íƒ€ì´í‹€ ë³€ê²½
 			m_TileSplit.SetWindowText(m_strTile);
-			AfxMessageBox(_T("Å¸ÀÏ : ") + m_strTile);
+			AfxMessageBox(_T("íƒ€ì¼ : ") + m_strTile);
 		}
 	}
 	return CDialog::OnCommand(wParam, lParam);
@@ -119,12 +119,12 @@ void CTileTool::OnSaveBtnClicked()
 
 	pTile.byDrawID = _ttoi(m_strTile.Right(1));
 
-	CFileDialog		Dlg(FALSE,		// FALSE(´Ù¸¥ ÀÌ¸§À¸·Î ÀúÀå) , TRUE(ºÒ·¯¿À±â)
-		L"dat",		// ±âº» ÆÄÀÏ È®ÀåÀÚ¸í(¸í½ÃÀûÀ¸·Î È®ÀåÀÚ¸íÀ» ±âÀÔÇÏÁö ¾ÊÀ» °æ¿ì, ÀÌ È®ÀåÀÚ¸íÀ¸·Î ÀÚµ¿ »ğÀÔ)
-		L"*.dat", // ´ëÈ­»óÀÚ¿¡ Ç¥½ÃµÉ ÃÖÃÊ ÆÄÀÏ¸í
-		OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, // OFN_HIDEREADONLY(ÀĞ±â Àü¿ë Ã¼Å©¹Ú½º ¼û±è), OFN_OVERWRITEPROMPT(Áßº¹ ÆÄÀÏ·Î ÀúÀå ½Ã °æ°í ¸Ş¼¼Áö ¶ç¿ò)
-		L"Data Files(*.dat)|*.dat||",  // ´ëÈ­ »óÀÚ¿¡ Ç¥½ÃµÉ ÆÄÀÏ Çü½Ä
-		this); // ºÎ¸ğ À©µµ¿ìÀÇ ÁÖ¼Ò
+	CFileDialog		Dlg(FALSE,		// FALSE(ë‹¤ë¥¸ ì´ë¦„ìœ¼ë¡œ ì €ì¥) , TRUE(ë¶ˆëŸ¬ì˜¤ê¸°)
+		L"dat",		// ê¸°ë³¸ íŒŒì¼ í™•ì¥ìëª…(ëª…ì‹œì ìœ¼ë¡œ í™•ì¥ìëª…ì„ ê¸°ì…í•˜ì§€ ì•Šì„ ê²½ìš°, ì´ í™•ì¥ìëª…ìœ¼ë¡œ ìë™ ì‚½ì…)
+		L"*.dat", // ëŒ€í™”ìƒìì— í‘œì‹œë  ìµœì´ˆ íŒŒì¼ëª…
+		OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, // OFN_HIDEREADONLY(ì½ê¸° ì „ìš© ì²´í¬ë°•ìŠ¤ ìˆ¨ê¹€), OFN_OVERWRITEPROMPT(ì¤‘ë³µ íŒŒì¼ë¡œ ì €ì¥ ì‹œ ê²½ê³  ë©”ì„¸ì§€ ë„ì›€)
+		L"Data Files(*.dat)|*.dat||",  // ëŒ€í™” ìƒìì— í‘œì‹œë  íŒŒì¼ í˜•ì‹
+		this); // ë¶€ëª¨ ìœˆë„ìš°ì˜ ì£¼ì†Œ
 
 	TCHAR	szPath[MAX_PATH] = L"";
 	GetCurrentDirectory(MAX_PATH, szPath);
@@ -134,10 +134,10 @@ void CTileTool::OnSaveBtnClicked()
 	Dlg.m_ofn.lpstrInitialDir = szPath;
 
 
-	// DoModal : ´ëÈ­ »óÀÚ¸¦ ½ÇÇà
+	// DoModal : ëŒ€í™” ìƒìë¥¼ ì‹¤í–‰
 	if (IDOK == Dlg.DoModal())
 	{
-		// GetPathName : ¼±ÅÃµÈ °æ·Î¸¦ ¹İÈ¯
+		// GetPathName : ì„ íƒëœ ê²½ë¡œë¥¼ ë°˜í™˜
 		CString		str = Dlg.GetPathName().GetString();
 		const TCHAR*	pGetPath = str.GetString();
 
@@ -152,7 +152,7 @@ void CTileTool::OnSaveBtnClicked()
 
 		CloseHandle(hFile);
 	}
-	// ÀúÀåÈÄ ¸®½ºÆ® °»½Å
+	// ì €ì¥í›„ ë¦¬ìŠ¤íŠ¸ ê°±ì‹ 
 	FileFinder();
 }
 
@@ -181,7 +181,7 @@ void CTileTool::OnTileListBoxClicked()
 {
 	UpdateData(TRUE);
 	TILE	pTile;
-	// ¸®½ºÆ®¹Ú½ºÀÇ ¼±ÅÃÇÑ ¼¿ÀÇ ÅØ½ºÆ®¸¦ °¡Á®¿È
+	// ë¦¬ìŠ¤íŠ¸ë°•ìŠ¤ì˜ ì„ íƒí•œ ì…€ì˜ í…ìŠ¤íŠ¸ë¥¼ ê°€ì ¸ì˜´
 	CString	strLoad;
 	m_TileListBox.GetText(m_TileListBox.GetCurSel(), strLoad);
 	
@@ -245,7 +245,7 @@ void CTileTool::OnDeleteBtnClicked()
 		if (DeleteFile(pGetPath) == TRUE)
 		{
 			CString strDel;
-			strDel = m_strTile + L" ÆÄÀÏ »èÁ¦ ¿Ï·á";
+			strDel = m_strTile + L" íŒŒì¼ ì‚­ì œ ì™„ë£Œ";
 			m_TileListBox.DeleteString(m_TileListBox.GetCurSel());
 			AfxMessageBox(strDel);
 		}
