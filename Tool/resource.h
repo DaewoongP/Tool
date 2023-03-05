@@ -21,6 +21,9 @@
 #define IDC_TILE_LB                     1009
 #define IDC_TILE_COLL_RADIO1            1010
 #define IDC_TILE_COLL_RADIO2            1011
+#define IDC_TILE_SIZEX                  1014
+#define IDC_TILE_SIZEY                  1015
+#define IDC_TILE_SIZE_BTN               1016
 
 // Next default values for new objects
 // 
@@ -28,7 +31,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        314
 #define _APS_NEXT_COMMAND_VALUE         32776
-#define _APS_NEXT_CONTROL_VALUE         1014
+#define _APS_NEXT_CONTROL_VALUE         1017
 #define _APS_NEXT_SYMED_VALUE           314
 #endif
 #endif

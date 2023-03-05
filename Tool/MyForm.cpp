@@ -17,6 +17,8 @@ IMPLEMENT_DYNCREATE(CMyForm, CFormView)
 
 CMyForm::CMyForm()
 	: CFormView(IDD_MYFORM)
+	, m_iTileX(0)
+	, m_iTileY(0)
 {
 
 }
@@ -33,6 +35,8 @@ void CMyForm::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_MAIN_LB, m_ListBox);
 	DDX_Control(pDX, IDC_FILE_PC, m_Picture);
 	DDX_Control(pDX, IDC_FILE_DETAIL_BTN, m_DetailBtn);
+	DDX_Text(pDX, IDC_TILE_SIZEX, m_iTileX);
+	DDX_Text(pDX, IDC_TILE_SIZEY, m_iTileY);
 }
 
 BEGIN_MESSAGE_MAP(CMyForm, CFormView)
@@ -41,6 +45,7 @@ BEGIN_MESSAGE_MAP(CMyForm, CFormView)
 	ON_LBN_SELCHANGE(IDC_MAIN_LB, &CMyForm::OnListBox)
 	ON_NOTIFY(TVN_SELCHANGED, IDC_MAIN_TREE, &CMyForm::OnTreeCtrl)
 	ON_WM_DESTROY()
+	ON_BN_CLICKED(IDC_TILE_SIZE_BTN, &CMyForm::OnTileXYBtn)
 END_MESSAGE_MAP()
 
 
@@ -285,14 +290,28 @@ void CMyForm::DrawMap()
 	pMiniView->Invalidate(FALSE);
 }
 
-void CMyForm::RenderMap()
-{
-
-}
-
 void CMyForm::OnDestroy()
 {
 	CFormView::OnDestroy();
 
 	// TODO: 여기에 메시지 처리기 코드를 추가합니다.
+}
+
+
+void CMyForm::OnTileXYBtn()
+{
+	UpdateData(TRUE);
+	CMainFrame*		pMainFrm = dynamic_cast<CMainFrame*>(AfxGetApp()->GetMainWnd());
+	CToolView*		pToolView = dynamic_cast<CToolView*>(pMainFrm->m_MainSplitter.GetPane(0, 0));
+	pToolView->m_iTileX = this->m_iTileX;
+	pToolView->m_iTileY = this->m_iTileY;
+	dynamic_cast<CMyTerrain*>(pToolView->m_pTerrain)->Set_TileCnt(this->m_iTileX, this->m_iTileY);
+	dynamic_cast<CMyTerrain*>(pToolView->m_pTerrain)->Release();
+	dynamic_cast<CMyTerrain*>(pToolView->m_pTerrain)->Initialize();
+	UpdateData(FALSE);
+
+	pToolView->Invalidate(FALSE);
+	CMiniView*		pMiniView = dynamic_cast<CMiniView*>(pMainFrm->m_SecondSplitter.GetPane(0, 0));
+
+	pMiniView->Invalidate(FALSE);
 }

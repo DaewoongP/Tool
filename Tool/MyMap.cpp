@@ -80,13 +80,13 @@ void CMyMap::Mini_Render(void)
 	D3DXMatrixIdentity(&matWorld);
 	D3DXMatrixScaling(&matScale, 1.f, 1.f, 1.f);
 	D3DXMatrixTranslation(&matTrans,
-		-m_pMainView->GetScrollPos(0),
-		-m_pMainView->GetScrollPos(1),
+		0.f,
+		0.f,
 		0.f);
 	matWorld = matScale * matTrans;
 
-	Set_Ratio(&matWorld, 0.3f, 0.3f);
-
+	Set_Ratio(&matWorld, 1.f, 1.f);
+	
 	DEVICE->Get_Sprite()->SetTransform(&matWorld);
 
 	DEVICE->Get_Sprite()->Draw(pTexInfo->pTexture,

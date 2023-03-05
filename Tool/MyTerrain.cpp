@@ -7,6 +7,8 @@
 CMyTerrain::CMyTerrain()
 	:m_pMainView(nullptr), m_bRender(true)
 {
+	m_iTileX = TILEX;
+	m_iTileY = TILEY;
 	m_vecTile.reserve(TILEX * TILEY);
 }
 
@@ -23,9 +25,9 @@ HRESULT CMyTerrain::Initialize(void)
 		return E_FAIL;
 	}
 
-	for (int i = 0; i < TILEY; ++i)
+	for (int i = 0; i < m_iTileY; ++i)
 	{
-		for (int j = 0; j < TILEX; ++j)
+		for (int j = 0; j < m_iTileX; ++j)
 		{
 			TILE*		pTile = new TILE;
 

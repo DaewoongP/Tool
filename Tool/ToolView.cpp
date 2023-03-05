@@ -39,7 +39,7 @@ END_MESSAGE_MAP()
 HWND	g_hWnd;
 
 CToolView::CToolView()
-	:m_pTerrain(nullptr), m_pMap(nullptr)
+	:m_pTerrain(nullptr), m_pMap(nullptr), m_iTileX(TILEX), m_iTileY(TILEY)
 {
 	m_Tile.byDrawID = 0;
 	m_Tile.byOption = 1;
@@ -104,7 +104,7 @@ void CToolView::OnInitialUpdate()
 {
 	CScrollView::OnInitialUpdate();
 
-	SetScrollSizes(MM_TEXT, CSize(TILECX * TILEX, TILECY * TILEY / 2));
+	SetScrollSizes(MM_TEXT, CSize(TILECX * m_iTileX, TILECY * m_iTileY / 2));
 
 	RECT	rcWnd{};
 	CMainFrame*	pMainFrm = (CMainFrame*)AfxGetMainWnd();
