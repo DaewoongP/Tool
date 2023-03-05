@@ -9,6 +9,7 @@
 #include "MiniView.h"
 #include "MyTerrain.h"
 #include "FileInfo.h"
+#include "MyMap.h"
 
 // CMyForm
 
@@ -168,28 +169,14 @@ void CMyForm::Make_Path(wstring & wstrOut, HTREEITEM curTree)
 
 void CMyForm::OnListBox()
 {
-	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 	UpdateData(TRUE);
 	
 	int iSelect = m_ListBox.GetCurSel();
-	CString cstrSelFile;
-	m_ListBox.GetText(iSelect, cstrSelFile);
-	wstring wstrImgPath = m_wstrCurDir + L"\\" + cstrSelFile.GetString() + L".png";
-	TCHAR szPath[MAX_PATH];
-	lstrcpy(szPath, wstrImgPath.c_str());
 
-	CImage PngImage;
-	CRect rect;
-	m_Picture.GetClientRect(rect);
-	CDC* dc; //픽쳐 컨트롤의 DC를 가져올  CDC 포인터
-	dc = m_Picture.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
-	//PngImage.Draw(dc->m_hDC, rect);
-	PngImage.Load(szPath);
-	PngImage.StretchBlt(dc->m_hDC, rect);
+	DrawPictureControl(iSelect);
 
-	ReleaseDC(dc);//DC 해제
-	//m_Picture.SetBitmap(PngImage);
-	
+	DrawMap();
+
 	UpdateData(FALSE);
 }
 
@@ -250,6 +237,58 @@ void CMyForm::OnTreeCtrl(NMHDR *pNMHDR, LRESULT *pResult)
 	}
 }
 
+void CMyForm::DrawPictureControl(int _iSelect)
+{
+	CString cstrSelFile;
+	m_ListBox.GetText(_iSelect, cstrSelFile);
+	wstring wstrImgPath = m_wstrCurDir + L"\\" + cstrSelFile.GetString() + L".png";
+	TCHAR szPath[MAX_PATH];
+	lstrcpy(szPath, wstrImgPath.c_str());
+
+	CImage PngImage;
+	CRect rect;
+	m_Picture.GetClientRect(rect);
+	CDC* dc; //픽쳐 컨트롤의 DC를 가져올  CDC 포인터
+	dc = m_Picture.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
+							//PngImage.Draw(dc->m_hDC, rect);
+	PngImage.Load(szPath);
+	PngImage.StretchBlt(dc->m_hDC, rect);
+
+	ReleaseDC(dc);//DC 해제
+}
+
+void CMyForm::DrawMap()
+{
+	if (m_Tree.GetItemText(m_Tree.GetSelectedItem()) != _T("Stage"))
+		return;
+
+	TCHAR	strMapName[MAX_STR] = L"";
+	m_ListBox.GetText(m_ListBox.GetCurSel(), strMapName);
+
+	TCHAR	szPath[MAX_PATH] = L"";
+
+	GetCurrentDirectory(MAX_PATH, szPath);
+	PathRemoveFileSpec(szPath);
+	wstring wstrPath = szPath;
+	Make_Path(wstrPath, m_Tree.GetSelectedItem());
+
+	wstrPath = wstrPath + L"\\" + strMapName + L".png";
+	
+
+	CMainFrame*		pMainFrm = dynamic_cast<CMainFrame*>(AfxGetApp()->GetMainWnd());
+	CToolView*		pToolView = dynamic_cast<CToolView*>(pMainFrm->m_MainSplitter.GetPane(0, 0));
+
+	dynamic_cast<CMyMap*>(pToolView->m_pMap)->Set_Name(wstrPath.c_str(), strMapName);
+
+	pToolView->Invalidate(FALSE);
+	CMiniView*		pMiniView = dynamic_cast<CMiniView*>(pMainFrm->m_SecondSplitter.GetPane(0, 0));
+	pMiniView->Invalidate(FALSE);
+}
+
+void CMyForm::RenderMap()
+{
+
+}
 
 void CMyForm::OnDestroy()
 {

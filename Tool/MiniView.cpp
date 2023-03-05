@@ -7,7 +7,7 @@
 #include "MainFrm.h"
 #include "ToolView.h"
 #include "MyTerrain.h"
-
+#include "MyMap.h"
 // CMiniView
 
 IMPLEMENT_DYNCREATE(CMiniView, CView)
@@ -35,11 +35,13 @@ void CMiniView::OnDraw(CDC* pDC)
 	CToolView*		pMainView = dynamic_cast<CToolView*>(pMainFrm->m_MainSplitter.GetPane(0, 0));
 
 	CMyTerrain*		pTerrain = pMainView->m_pTerrain;
+	CMyMap*			pMap = pMainView->m_pMap;
 
 	DEVICE->Render_Begin();
 
+	pMap->Mini_Render();
 	pTerrain->Mini_Render();
-
+	
 	DEVICE->Render_End(m_hWnd);
 }
 

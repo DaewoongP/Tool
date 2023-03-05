@@ -67,6 +67,9 @@
     <Filter Include="01. View\MyForm\TileTool">
       <UniqueIdentifier>{1d882743-6079-4367-818e-fa4aca41bc96}</UniqueIdentifier>
     </Filter>
+    <Filter Include="05. Etc\02. Map">
+      <UniqueIdentifier>{286a0ae3-c08a-4e85-96de-a19ffac0d11f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainFrm.h">
@@ -132,6 +135,9 @@
     <ClInclude Include="ObjTool.h">
       <Filter>01. View\MyForm\ObjTool</Filter>
     </ClInclude>
+    <ClInclude Include="MyMap.h">
+      <Filter>05. Etc\02. Map</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MainFrm.cpp">
@@ -190,6 +196,9 @@
     </ClCompile>
     <ClCompile Include="ObjTool.cpp">
       <Filter>01. View\MyForm\ObjTool</Filter>
+    </ClCompile>
+    <ClCompile Include="MyMap.cpp">
+      <Filter>05. Etc\02. Map</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

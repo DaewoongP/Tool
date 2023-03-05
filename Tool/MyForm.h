@@ -38,7 +38,9 @@ public:
 private:
 	void Make_Tree(wstring& wstrPath, HTREEITEM parent);
 	void Make_Path(wstring& wstrOut, HTREEITEM curTree);
-
+	void DrawPictureControl(int _iSelect);
+	void DrawMap();
+	void RenderMap();
 public:
 	CMapTool				m_MapTool;
 	CTileTool				m_TileTool;

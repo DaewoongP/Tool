@@ -16,8 +16,8 @@ typedef D3DXMATRIX    MATRIX;
 #define		TILECX			94
 #define		TILECY			48
 
-#define		TILEX			45
-#define		TILEY			30
+#define		TILEX			38
+#define		TILEY			86
 
 #define		MIN_STR			64
 #define		MAX_STR			256	

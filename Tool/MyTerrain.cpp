@@ -122,7 +122,7 @@ void CMyTerrain::Mini_Render(void)
 
 		matWorld = matScale * matTrans;
 
-		Set_Ratio(&matWorld, 0.315f, 0.608f);
+		Set_Ratio(&matWorld, 0.3f, 0.3f);
 
 		const TEXINFO*	pTexInfo = TEXTURE->Get_Texture(L"Terrain", L"Tile", pTile->byDrawID);
 		if (nullptr == pTexInfo)
