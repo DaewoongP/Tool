@@ -1,4 +1,4 @@
-// MyForm.cpp : ±¸Çö ÆÄÀÏÀÔ´Ï´Ù.
+// MyForm.cpp : êµ¬í˜„ íŒŒì¼ì…ë‹ˆë‹¤.
 //
 
 #include "stdafx.h"
@@ -42,7 +42,7 @@ BEGIN_MESSAGE_MAP(CMyForm, CFormView)
 END_MESSAGE_MAP()
 
 
-// CMyForm Áø´ÜÀÔ´Ï´Ù.
+// CMyForm ì§„ë‹¨ì…ë‹ˆë‹¤.
 
 #ifdef _DEBUG
 void CMyForm::AssertValid() const
@@ -59,28 +59,28 @@ void CMyForm::Dump(CDumpContext& dc) const
 #endif //_DEBUG
 
 
-// CMyForm ¸Ş½ÃÁö Ã³¸®±âÀÔ´Ï´Ù.
+// CMyForm ë©”ì‹œì§€ ì²˜ë¦¬ê¸°ì…ë‹ˆë‹¤.
 
 
 void CMyForm::OnInitialUpdate()
 {
 	CFormView::OnInitialUpdate();
-
-	// °İÀÚ ONOFF Ã¼Å©¹Ú½º Ã³À½ »óÅÂ¸¦ true·Î ¼³Á¤
+	// ê²©ì ONOFF ì²´í¬ë°•ìŠ¤ ì²˜ìŒ ìƒíƒœë¥¼ trueë¡œ ì„¤ì •
 	m_GirdRender.SetCheck(true);
 
 	CFileFind Find;
 	TCHAR	szPath[MAX_PATH] = L"";
 
-	// GetCurrentDirectory : ÇöÀç ÇÁ·ÎÁ§Æ®°¡ ÀÖ´Â µğ·ºÅä¸® °æ·Î¸¦ ¾ò¾î¿À´Â ÇÔ¼ö
+	// GetCurrentDirectory : í˜„ì¬ í”„ë¡œì íŠ¸ê°€ ìˆëŠ” ë””ë ‰í† ë¦¬ ê²½ë¡œë¥¼ ì–»ì–´ì˜¤ëŠ” í•¨ìˆ˜
 
 	GetCurrentDirectory(MAX_PATH, szPath);
 	PathRemoveFileSpec(szPath);
 	lstrcat(szPath, L"\\Texture");
-	wstring wstrPath = szPath; // °æ·Î¸¸µé±â.
+	wstring wstrPath = szPath; // ê²½ë¡œë§Œë“¤ê¸°.
 
 	m_Tree.InsertItem(TEXT("Texture"), 0, 0, TVI_ROOT, TVI_LAST);
 	Make_Tree(wstrPath, m_Tree.GetRootItem());
+
 }
 
 
@@ -113,7 +113,7 @@ void CMyForm::OnDetailBtnClicked()
 
 void CMyForm::OnGridCheckClicked()
 {
-	// Ã¼Å© ¹Ú½º¸¦ Å¬¸¯ÇÏ¸é ±× Ã¼Å©¹Ú½º »óÅÂ¿¡ µû¶ó ToolView¿Í MiniViewÀÇ °İÀÚ¸¦ ONOFF·Î ¼³Á¤
+	// ì²´í¬ ë°•ìŠ¤ë¥¼ í´ë¦­í•˜ë©´ ê·¸ ì²´í¬ë°•ìŠ¤ ìƒíƒœì— ë”°ë¼ ToolViewì™€ MiniViewì˜ ê²©ìë¥¼ ONOFFë¡œ ì„¤ì •
 	CMainFrame*		pMainFrm = dynamic_cast<CMainFrame*>(AfxGetApp()->GetMainWnd());
 	CToolView*		pToolView = dynamic_cast<CToolView*>(pMainFrm->m_MainSplitter.GetPane(0, 0));
 	CMiniView*		pMiniView = dynamic_cast<CMiniView*>(pMainFrm->m_SecondSplitter.GetPane(0, 0));
@@ -168,7 +168,7 @@ void CMyForm::Make_Path(wstring & wstrOut, HTREEITEM curTree)
 
 void CMyForm::OnListBox()
 {
-	// TODO: ¿©±â¿¡ ÄÁÆ®·Ñ ¾Ë¸² Ã³¸®±â ÄÚµå¸¦ Ãß°¡ÇÕ´Ï´Ù.
+	// TODO: ì—¬ê¸°ì— ì»¨íŠ¸ë¡¤ ì•Œë¦¼ ì²˜ë¦¬ê¸° ì½”ë“œë¥¼ ì¶”ê°€í•©ë‹ˆë‹¤.
 	UpdateData(TRUE);
 	
 	int iSelect = m_ListBox.GetCurSel();
@@ -181,13 +181,13 @@ void CMyForm::OnListBox()
 	CImage PngImage;
 	CRect rect;
 	m_Picture.GetClientRect(rect);
-	CDC* dc; //ÇÈÃÄ ÄÁÆ®·ÑÀÇ DC¸¦ °¡Á®¿Ã  CDC Æ÷ÀÎÅÍ
-	dc = m_Picture.GetDC(); //ÇÈÃÄ ÄÁÆ®·ÑÀÇ DC¸¦ ¾ò´Â´Ù.
+	CDC* dc; //í”½ì³ ì»¨íŠ¸ë¡¤ì˜ DCë¥¼ ê°€ì ¸ì˜¬  CDC í¬ì¸í„°
+	dc = m_Picture.GetDC(); //í”½ì³ ì»¨íŠ¸ë¡¤ì˜ DCë¥¼ ì–»ëŠ”ë‹¤.
 	//PngImage.Draw(dc->m_hDC, rect);
 	PngImage.Load(szPath);
 	PngImage.StretchBlt(dc->m_hDC, rect);
 
-	ReleaseDC(dc);//DC ÇØÁ¦
+	ReleaseDC(dc);//DC í•´ì œ
 	//m_Picture.SetBitmap(PngImage);
 	
 	UpdateData(FALSE);
@@ -197,7 +197,7 @@ void CMyForm::OnListBox()
 void CMyForm::OnTreeCtrl(NMHDR *pNMHDR, LRESULT *pResult)
 {
 	LPNMTREEVIEW pNMTreeView = reinterpret_cast<LPNMTREEVIEW>(pNMHDR);
-	// TODO: ¿©±â¿¡ ÄÁÆ®·Ñ ¾Ë¸² Ã³¸®±â ÄÚµå¸¦ Ãß°¡ÇÕ´Ï´Ù.
+	// TODO: ì—¬ê¸°ì— ì»¨íŠ¸ë¡¤ ì•Œë¦¼ ì²˜ë¦¬ê¸° ì½”ë“œë¥¼ ì¶”ê°€í•©ë‹ˆë‹¤.
 	*pResult = 0;
 
 	UpdateData(TRUE);
@@ -213,10 +213,10 @@ void CMyForm::OnTreeCtrl(NMHDR *pNMHDR, LRESULT *pResult)
 
 	int FileCnt = CFileInfo::DirFileCnt(szPath);
 
-	//CFileFind : MFC¿¡¼­ Á¦°øÇÏ´Â ÆÄÀÏ ¹× °æ·Î Á¦¾î °ü·Ã Å¬·¡½º
+	//CFileFind : MFCì—ì„œ ì œê³µí•˜ëŠ” íŒŒì¼ ë° ê²½ë¡œ ì œì–´ ê´€ë ¨ í´ë˜ìŠ¤
 	CFileFind			Find;
 
-	// °æ·Î »óÀÇ ¸ğµç ÆÄÀÏÀ» Ã£¾Æ¾ß ÇÏ±â ¶§¹®¿¡ °æ·Î ¼öÁ¤
+	// ê²½ë¡œ ìƒì˜ ëª¨ë“  íŒŒì¼ì„ ì°¾ì•„ì•¼ í•˜ê¸° ë•Œë¬¸ì— ê²½ë¡œ ìˆ˜ì •
 	wstring		wstrFilePath = wstrPath + L"\\*.*";
 	
 	BOOL		bContinue = Find.FindFile(wstrFilePath.c_str());
@@ -246,5 +246,5 @@ void CMyForm::OnDestroy()
 {
 	CFormView::OnDestroy();
 
-	// TODO: ¿©±â¿¡ ¸Ş½ÃÁö Ã³¸®±â ÄÚµå¸¦ Ãß°¡ÇÕ´Ï´Ù.
+	// TODO: ì—¬ê¸°ì— ë©”ì‹œì§€ ì²˜ë¦¬ê¸° ì½”ë“œë¥¼ ì¶”ê°€í•©ë‹ˆë‹¤.
 }
