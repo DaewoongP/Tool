@@ -4,6 +4,10 @@
 #include "stdafx.h"
 #include "Tool.h"
 #include "MyForm.h"
+#include "MainFrm.h"
+#include "ToolView.h"
+#include "MiniView.h"
+#include "MyTerrain.h"
 
 // CMyForm
 
@@ -22,10 +26,12 @@ CMyForm::~CMyForm()
 void CMyForm::DoDataExchange(CDataExchange* pDX)
 {
 	CFormView::DoDataExchange(pDX);
+	DDX_Control(pDX, IDC_GRID_CHECK, m_GirdRender);
 }
 
 BEGIN_MESSAGE_MAP(CMyForm, CFormView)
 	ON_BN_CLICKED(IDC_FILE_DETAIL_BTN, &CMyForm::OnDetailBtnClicked)
+	ON_BN_CLICKED(IDC_GRID_CHECK, &CMyForm::OnGridCheckClicked)
 END_MESSAGE_MAP()
 
 
@@ -52,9 +58,8 @@ void CMyForm::Dump(CDumpContext& dc) const
 void CMyForm::OnInitialUpdate()
 {
 	CFormView::OnInitialUpdate();
-
-	m_Font.CreatePointFont(100, L"고딕");
-	//GetDlgItem(IDC_BUTTON1)->SetFont(&m_Font);
+	// 격자 ONOFF 체크박스 처음 상태를 true로 설정
+	m_GirdRender.SetCheck(true);
 }
 
 
@@ -85,4 +90,20 @@ void CMyForm::OnDetailBtnClicked()
 	default:
 		break;
 	}*/
+}
+
+
+void CMyForm::OnGridCheckClicked()
+{
+	// 체크 박스를 클릭하면 그 체크박스 상태에 따라 ToolView와 MiniView의 격자를 ONOFF로 설정
+	CMainFrame*		pMainFrm = dynamic_cast<CMainFrame*>(AfxGetApp()->GetMainWnd());
+	CToolView*		pToolView = dynamic_cast<CToolView*>(pMainFrm->m_MainSplitter.GetPane(0, 0));
+	CMiniView*		pMiniView = dynamic_cast<CMiniView*>(pMainFrm->m_SecondSplitter.GetPane(0, 0));
+	
+	if (m_GirdRender.GetCheck())
+		dynamic_cast<CMyTerrain*>(pToolView->m_pTerrain)->Set_Render(true);
+	else
+		dynamic_cast<CMyTerrain*>(pToolView->m_pTerrain)->Set_Render(false);
+	pToolView->Invalidate(FALSE);
+	pMiniView->Invalidate(FALSE);
 }

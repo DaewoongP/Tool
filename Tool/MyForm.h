@@ -3,6 +3,7 @@
 #include "MapTool.h"
 #include "TileTool.h"
 #include "ObjTool.h"
+#include "afxwin.h"
 class CMyForm : public CFormView
 {
 	DECLARE_DYNCREATE(CMyForm)
@@ -29,11 +30,12 @@ protected:
 public:
 	virtual void OnInitialUpdate();
 	afx_msg void OnDetailBtnClicked();
+	afx_msg void OnGridCheckClicked();
 public:
-	CFont				m_Font;
 	CMapTool			m_MapTool;
 	CTileTool			m_TileTool;
 	CObjTool			m_ObjTool;
+	CButton				m_GirdRender;
 };
 
 
