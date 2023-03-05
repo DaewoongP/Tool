@@ -20,8 +20,18 @@ public:
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 지원입니다.
 	virtual BOOL OnCommand(WPARAM wParam, LPARAM lParam);
+	virtual BOOL OnInitDialog();
+	afx_msg void OnTileListBoxClicked();
 	afx_msg void OnBnClickedTileSplit();
+	afx_msg void OnSaveBtnClicked();
+	afx_msg void OnDeleteBtnClicked();
+	afx_msg void OnTileSelectBtnClicked();
 	DECLARE_MESSAGE_MAP()
+private:
+	void FileFinder();
 public:
 	CSplitButton		m_TileSplit;
+	CString				m_strTile;
+	CButton				m_CollRadio[2];
+	CListBox			m_TileListBox;
 };

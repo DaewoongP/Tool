@@ -48,6 +48,7 @@ public:
 	
 public:
 	CMyTerrain*			m_pTerrain;
+	TILE				m_Tile;
 };
 
 #ifndef _DEBUG  // ToolView.cpp의 디버그 버전

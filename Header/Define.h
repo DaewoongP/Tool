@@ -20,7 +20,8 @@ typedef D3DXMATRIX    MATRIX;
 #define		TILEY			30
 
 #define		MIN_STR			64
-#define		MAX_STR			256
+#define		MAX_STR			256	
+		
 
 #define ERR_MSG(message)								\
 ::MessageBox(nullptr, message, L"error", MB_OK)
