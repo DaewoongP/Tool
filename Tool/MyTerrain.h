@@ -17,7 +17,7 @@ public:
 
 public:
 	vector<TILE*>&			Get_vecTile() { return m_vecTile; }
-
+	void					Set_Render(bool _bRender) { m_bRender = _bRender; }
 public:
 	void		Set_MainView(CToolView* pMainView) { m_pMainView = pMainView; }
 	void		Set_Ratio(D3DXMATRIX* pOut, const float& fRatioX, const float& fRatioY);
@@ -29,7 +29,7 @@ public:
 
 private:
 	vector<TILE*>			m_vecTile;
-	CToolView*				m_pMainView = nullptr;
-
+	CToolView*				m_pMainView;
+	bool					m_bRender;
 };
 
