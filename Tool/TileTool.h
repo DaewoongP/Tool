@@ -1,4 +1,5 @@
 #pragma once
+#include "afxwin.h"
 
 
 // CTileTool 대화 상자입니다.
@@ -18,6 +19,9 @@ public:
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 지원입니다.
-
+	virtual BOOL OnCommand(WPARAM wParam, LPARAM lParam);
+	afx_msg void OnBnClickedTileSplit();
 	DECLARE_MESSAGE_MAP()
+public:
+	CSplitButton		m_TileSplit;
 };
