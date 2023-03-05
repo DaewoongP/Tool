@@ -4,6 +4,7 @@
 #include "TileTool.h"
 #include "ObjTool.h"
 #include "afxwin.h"
+#include "afxcmn.h"
 class CMyForm : public CFormView
 {
 	DECLARE_DYNCREATE(CMyForm)
@@ -31,11 +32,21 @@ public:
 	virtual void OnInitialUpdate();
 	afx_msg void OnDetailBtnClicked();
 	afx_msg void OnGridCheckClicked();
+	afx_msg void OnListBox();
+	afx_msg void OnTreeCtrl(NMHDR *pNMHDR, LRESULT *pResult);
+	afx_msg void OnDestroy();
+
+private:
+	void Make_Tree(wstring& wstrPath, HTREEITEM parent);
+	void Make_Path(wstring& wstrOut, HTREEITEM curTree);
+
 public:
-	CMapTool			m_MapTool;
-	CTileTool			m_TileTool;
-	CObjTool			m_ObjTool;
-	CButton				m_GirdRender;
+	CMapTool				m_MapTool;
+	CTileTool				m_TileTool;
+	CObjTool				m_ObjTool;
+	CButton					m_GirdRender;
+	CTreeCtrl				m_Tree;
+	CListBox				m_ListBox;
+	wstring					m_wstrCurDir;
+	CStatic					m_Picture;
 };
-
-
