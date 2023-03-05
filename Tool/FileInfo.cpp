@@ -135,3 +135,29 @@ int CFileInfo::DirFileCnt(const wstring & wstrPath)
 
 	return iFileCnt;
 }
+
+int CFileInfo::DirCnt(const wstring & wstrPath)
+{
+	wstring		wstrFilePath = wstrPath + L"\\*.*";
+
+	CFileFind			Find;
+	BOOL		bContinue = Find.FindFile(wstrFilePath.c_str());
+
+	int	iDirCnt = 0;
+
+	while (bContinue)
+	{
+		bContinue = Find.FindNextFile();
+
+		if (Find.IsDots())
+			continue;
+
+		if (Find.IsSystem())
+			continue;
+
+		if (Find.IsDirectory())
+			++iDirCnt;
+	}
+
+	return iDirCnt;
+}
