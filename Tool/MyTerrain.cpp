@@ -7,6 +7,8 @@
 CMyTerrain::CMyTerrain()
 	:m_pMainView(nullptr), m_bRender(true)
 {
+	m_iTileX = TILEX;
+	m_iTileY = TILEY;
 	m_vecTile.reserve(TILEX * TILEY);
 }
 
@@ -23,9 +25,9 @@ HRESULT CMyTerrain::Initialize(void)
 		return E_FAIL;
 	}
 
-	for (int i = 0; i < TILEY; ++i)
+	for (int i = 0; i < m_iTileY; ++i)
 	{
-		for (int j = 0; j < TILEX; ++j)
+		for (int j = 0; j < m_iTileX; ++j)
 		{
 			TILE*		pTile = new TILE;
 
@@ -100,12 +102,6 @@ void CMyTerrain::Render()
 			&D3DXVECTOR3(fCenterX, fCenterY, 0.f), // 출력할 이미지의 중심 축에 대한 VECTOR3 구조체 포인터 주소(NULL인 경우 0, 0이 중심 좌표)
 			nullptr, // 위치 좌표에 대한 VECTOR3 구조체 포인터 주소(NULL인 경우 스크린의 0,0 좌료 출력)
 			D3DCOLOR_ARGB(255, 255, 255, 255)); // 출력할 원본 이미지와 섞을 색상 값, 0xffffffff를 매개 변수로 전달할 경우 텍스처의 원본 색상 유지
-
-		swprintf_s(szBuf, L"%d", iIndex);
-
-		DEVICE->Get_Font()->DrawTextW(DEVICE->Get_Sprite(), szBuf, lstrlen(szBuf), nullptr, 0, D3DCOLOR_ARGB(255, 255, 255, 255));
-
-		++iIndex;
 	}
 }
 
@@ -128,7 +124,7 @@ void CMyTerrain::Mini_Render(void)
 
 		matWorld = matScale * matTrans;
 
-		Set_Ratio(&matWorld, 0.315f, 0.608f);
+		Set_Ratio(&matWorld, 0.3f, 0.3f);
 
 		const TEXINFO*	pTexInfo = TEXTURE->Get_Texture(L"Terrain", L"Tile", pTile->byDrawID);
 		if (nullptr == pTexInfo)
@@ -160,7 +156,7 @@ void CMyTerrain::Set_Ratio(D3DXMATRIX * pOut, const float & fRatioX, const float
 	pOut->_42 *= fRatioY;
 }
 
-void CMyTerrain::TileChange(const D3DXVECTOR3 & vPos, const BYTE & byDrawID)
+void CMyTerrain::TileChange(const D3DXVECTOR3 & vPos, const BYTE & byDrawID, const BYTE& byOption)
 {
 	int	iIndex = GetTileIndex(vPos);
 
@@ -168,7 +164,7 @@ void CMyTerrain::TileChange(const D3DXVECTOR3 & vPos, const BYTE & byDrawID)
 		return;
 
 	m_vecTile[iIndex]->byDrawID = byDrawID;
-	m_vecTile[iIndex]->byOption = 1;
+	m_vecTile[iIndex]->byOption = byOption;
 }
 
 int CMyTerrain::GetTileIndex(const D3DXVECTOR3 & vPos)

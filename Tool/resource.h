@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
-// Microsoft Visual C++¿¡¼­ »ı¼ºÇÑ Æ÷ÇÔ ÆÄÀÏÀÔ´Ï´Ù.
-// Tool.rc¿¡¼­ »ç¿ëµÇ°í ÀÖ½À´Ï´Ù.
+// Microsoft Visual C++ì—ì„œ ìƒì„±í•œ í¬í•¨ íŒŒì¼ì…ë‹ˆë‹¤.
+// Tool.rcì—ì„œ ì‚¬ìš©ë˜ê³  ìˆìŠµë‹ˆë‹¤.
 //
 #define IDD_ABOUTBOX                    100
 #define IDP_OLE_INIT_FAILED             100
@@ -21,6 +21,11 @@
 #define IDC_TILE_LB                     1009
 #define IDC_TILE_COLL_RADIO1            1010
 #define IDC_TILE_COLL_RADIO2            1011
+#define IDC_TILE_SIZEX                  1014
+#define IDC_TILE_SIZEY                  1015
+#define IDC_TILE_SIZE_BTN               1016
+#define IDC_SAVE_ALL_BTN                1017
+#define IDC_LOAD_ALL_BTN                1018
 #define IDC_OBJ_TYPE_COMBO              1214
 #define IDC_OBJ_TYPE_STATIC             1215
 #define IDC_OBJ_NAME_EDIT               1216
@@ -49,6 +54,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        315
 #define _APS_NEXT_COMMAND_VALUE         32776
+
 #define _APS_NEXT_CONTROL_VALUE         1035
 #define _APS_NEXT_SYMED_VALUE           314
 #endif
