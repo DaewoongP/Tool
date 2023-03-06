@@ -352,6 +352,7 @@ void CMyForm::OnBnClickedSaveAllBtn()
 	CMainFrame*		pMainFrm = dynamic_cast<CMainFrame*>(AfxGetApp()->GetMainWnd());
 	CToolView*		pToolView = dynamic_cast<CToolView*>(pMainFrm->m_MainSplitter.GetPane(0, 0));
 	vector<TILE*>	vecTile = dynamic_cast<CMyTerrain*>(pToolView->m_pTerrain)->Get_vecTile();
+	vector<CObj*>	vecObj = pToolView->m_vecUnit;
 
 	CFileDialog		Dlg(FALSE,
 		L"dat",
@@ -390,7 +391,44 @@ void CMyForm::OnBnClickedSaveAllBtn()
 			WriteFile(hFile, &(Tile->byOption), sizeof(BYTE), &dwByte, nullptr);
 		}
 		// Unit List 돌면서 저장
+		int		iUnitCnt = vecObj.size();
+		WriteFile(hFile, &(iUnitCnt), sizeof(int), &dwByte, nullptr);
+		for (auto& Obj : vecObj)
+		{
+			CUnit* Unit = dynamic_cast<CUnit*>(Obj);
+			WriteFile(hFile, &(Unit->m_tUnitData.bCollision), sizeof(bool), &dwByte, nullptr);
+			WriteFile(hFile, &(Unit->m_tUnitData.iAttack), sizeof(int), &dwByte, nullptr);
+			WriteFile(hFile, &(Unit->m_tUnitData.iHp), sizeof(int), &dwByte, nullptr);
+			WriteFile(hFile, &(Unit->m_tUnitData.iLayer), sizeof(int), &dwByte, nullptr);
+			WriteFile(hFile, &(Unit->m_tUnitData.iType), sizeof(int), &dwByte, nullptr);
+			dwStrByte = 0;
+			TCHAR*	Name = Unit->m_tUnitData.strName.GetBuffer(
+				Unit->m_tUnitData.strName.GetLength());
+			dwStrByte = sizeof(TCHAR) * (lstrlen(Name) + 1);
+			WriteFile(hFile, &dwStrByte, sizeof(DWORD), &dwByte, nullptr);
+			WriteFile(hFile, Name, dwStrByte, &dwByte, nullptr);
+			Unit->m_tUnitData.strName.ReleaseBuffer();
 
+			WriteFile(hFile, &(Unit->m_tImgPath.iCount), sizeof(int), &dwByte, nullptr);
+			dwStrByte = 0;
+			dwStrByte = sizeof(TCHAR) * (lstrlen(Unit->m_tImgPath.wstrObjKey.c_str()) + 1);
+			WriteFile(hFile, &dwStrByte, sizeof(DWORD), &dwByte, nullptr);
+			WriteFile(hFile, Unit->m_tImgPath.wstrObjKey.c_str(), dwStrByte, &dwByte, nullptr);
+			dwStrByte = 0;
+			dwStrByte = sizeof(TCHAR) * (lstrlen(Unit->m_tImgPath.wstrPath.c_str()) + 1);
+			WriteFile(hFile, &dwStrByte, sizeof(DWORD), &dwByte, nullptr);
+			WriteFile(hFile, Unit->m_tImgPath.wstrPath.c_str(), dwStrByte, &dwByte, nullptr);
+			dwStrByte = 0; 
+			dwStrByte = sizeof(TCHAR) * (lstrlen(Unit->m_tImgPath.wstrStateKey.c_str()) + 1);
+			WriteFile(hFile, &dwStrByte, sizeof(DWORD), &dwByte, nullptr);
+			WriteFile(hFile, Unit->m_tImgPath.wstrStateKey.c_str(), dwStrByte, &dwByte, nullptr);
+
+			WriteFile(hFile, &(Unit->m_tInfo), sizeof(INFO), &dwByte, nullptr);
+			WriteFile(hFile, &(Unit->m_vScroll), sizeof(VERTEX), &dwByte, nullptr);
+			WriteFile(hFile, &(Unit->m_fReverseX), sizeof(float), &dwByte, nullptr);
+			WriteFile(hFile, &(Unit->m_iAlpha), sizeof(int), &dwByte, nullptr);
+			WriteFile(hFile, &(Unit->m_bInstalled), sizeof(bool), &dwByte, nullptr);
+		}
 
 		// Map name 저장
 		dwStrByte = 0;
@@ -451,6 +489,7 @@ void CMyForm::OnBnClickedLoadAllBtn()
 		UNITDATA	tData{};
 		// 불러온 타일을 넣어줄 벡터
 		vector<TILE*>	vecTile;
+		vector<CObj*>	vecUnit;
 		// 저장된 타일의 개수
 		int iTileCnt = 0;
 		// 맨앞에 타일의 개수가 저장되어 있으므로 그걸 가져옴
@@ -480,8 +519,65 @@ void CMyForm::OnBnClickedLoadAllBtn()
 		dynamic_cast<CMyTerrain*>(pToolView->m_pTerrain)->Load_vecTile(vecTile);
 
 		// 유닛도 마찬가지로 for로 돌면서 대입
+		int iUnitCnt = 0;
+		ReadFile(hFile, &(iUnitCnt), sizeof(int), &dwByte, nullptr);
+		if (0 == dwByte)
+			return;
+		for (auto& iter : pToolView->m_vecUnit)
+		{
+			Safe_Delete(iter);
+		}
+		for (int i = 0; i < iUnitCnt; ++i)
+		{
+			CObj* pUnit = new CUnit;
+			CUnit* Unit = dynamic_cast<CUnit*>(pUnit);
+			ReadFile(hFile, &(Unit->m_tUnitData.bCollision), sizeof(bool), &dwByte, nullptr);
+			ReadFile(hFile, &(Unit->m_tUnitData.iAttack), sizeof(int), &dwByte, nullptr);
+			ReadFile(hFile, &(Unit->m_tUnitData.iHp), sizeof(int), &dwByte, nullptr);
+			ReadFile(hFile, &(Unit->m_tUnitData.iLayer), sizeof(int), &dwByte, nullptr);
+			ReadFile(hFile, &(Unit->m_tUnitData.iType), sizeof(int), &dwByte, nullptr);
 
+			dwStrByte = 0;
+			TCHAR  pName[MAX_STR] = L"";
+			ReadFile(hFile, &dwStrByte, sizeof(DWORD), &dwByte, nullptr);
+			ReadFile(hFile, pName, dwStrByte, &dwByte, nullptr);
+			Unit->m_tUnitData.strName = pName;
 
+			ReadFile(hFile, &(Unit->m_tImgPath.iCount), sizeof(int), &dwByte, nullptr);
+
+			dwStrByte = 0;
+			TCHAR  objKey[MAX_STR] = L"";
+			ReadFile(hFile, &dwStrByte, sizeof(DWORD), &dwByte, nullptr);
+			ReadFile(hFile, objKey, dwStrByte, &dwByte, nullptr);
+			Unit->m_tImgPath.wstrObjKey = objKey;
+
+			dwStrByte = 0;
+			TCHAR  objPath[MAX_STR] = L"";
+			ReadFile(hFile, &dwStrByte, sizeof(DWORD), &dwByte, nullptr);
+			ReadFile(hFile, objPath, dwStrByte, &dwByte, nullptr);
+			Unit->m_tImgPath.wstrPath = objPath;
+
+			dwStrByte = 0;
+			TCHAR  objState[MAX_STR] = L"";
+			ReadFile(hFile, &dwStrByte, sizeof(DWORD), &dwByte, nullptr);
+			ReadFile(hFile, objState, dwStrByte, &dwByte, nullptr);
+			Unit->m_tImgPath.wstrStateKey = objState;
+
+			ReadFile(hFile, &(Unit->m_tInfo), sizeof(INFO), &dwByte, nullptr);
+			ReadFile(hFile, &(Unit->m_vScroll), sizeof(VERTEX), &dwByte, nullptr);
+			ReadFile(hFile, &(Unit->m_fReverseX), sizeof(float), &dwByte, nullptr);
+			ReadFile(hFile, &(Unit->m_iAlpha), sizeof(int), &dwByte, nullptr);
+			ReadFile(hFile, &(Unit->m_bInstalled), sizeof(bool), &dwByte, nullptr);
+
+			if (0 == dwByte)
+			{
+				delete pUnit;
+				pUnit = nullptr;
+				break;
+			}
+			vecUnit.push_back(pUnit);
+		}
+		pToolView->m_vecUnit = vecUnit;
 		// 맵 로드
 		dwStrByte = 0;
 		ReadFile(hFile, &dwStrByte, sizeof(DWORD), &dwByte, nullptr);

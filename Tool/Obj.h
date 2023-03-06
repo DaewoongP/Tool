@@ -15,7 +15,7 @@ public:
 
 public:
 	void		Set_View(CToolView* pMainView) { m_pMainView = pMainView; }
-	void					Set_Render(bool _bRender) { m_bRender = _bRender; }
+	void		Set_Render(bool _bRender) { m_bRender = _bRender; }
 	void		Set_Pos(float fX, float fY)
 	{
 		m_tInfo.vPos.x = fX;
@@ -28,9 +28,11 @@ public:
 	void		Set_Installed() { m_bInstalled = true; }
 
 	const bool&	Get_Installed() { return m_bInstalled; }
-protected:
+
+public:
 	CToolView*				m_pMainView;
 	bool					m_bRender;
+	// 여기부터
 	INFO					m_tInfo;
 	IMGPATH					m_tImgPath;
 	VERTEX					m_vScroll;

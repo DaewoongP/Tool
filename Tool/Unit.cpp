@@ -9,7 +9,7 @@ CUnit::CUnit() : CObj()
 {
 	CMainFrame*		pMainFrm = dynamic_cast<CMainFrame*>(AfxGetApp()->GetMainWnd());
 	CMyForm*		pMyForm = dynamic_cast<CMyForm*>(pMainFrm->m_SecondSplitter.GetPane(1, 0));
-	// 깊은복사하려면 일케 하는거 아니야?
+	
 	m_tUnitData.strName = pMyForm->m_ObjTool.m_strName.GetString();
 	m_tUnitData.iType = pMyForm->m_ObjTool.m_Type_Combo.GetCurSel();
 	m_tUnitData.iLayer = pMyForm->m_ObjTool.m_iLayer;
@@ -63,11 +63,16 @@ void CUnit::Render(void)
 
 	D3DXMatrixIdentity(&matWorld);
 	D3DXMatrixScaling(&matScale, 1.f * m_fReverseX, 1.f, 1.f);
-	D3DXMatrixTranslation(&matTrans,
-		m_tInfo.vPos.x + m_vScroll.x,
-		m_tInfo.vPos.y + m_vScroll.y,
-		0.f);
-
+	if (m_bInstalled)
+		D3DXMatrixTranslation(&matTrans,
+			m_tInfo.vPos.x - m_pMainView->GetScrollPos(0),
+			m_tInfo.vPos.y - m_pMainView->GetScrollPos(1),
+			0.f);
+	else
+		D3DXMatrixTranslation(&matTrans,
+			m_tInfo.vPos.x,
+			m_tInfo.vPos.y,
+			0.f);
 	matWorld = matScale * matTrans;
 	CDevice::Get_Instance()->Get_Sprite()->SetTransform(&matWorld);
 

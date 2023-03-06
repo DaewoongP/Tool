@@ -172,8 +172,12 @@ void CToolView::OnDraw(CDC* /*pDC*/)
 	m_pMap->Render();
 	m_pTerrain->Render();
 	
-	for(auto& Unit : m_vecUnit)
+	for (auto& Unit : m_vecUnit)
+	{
+		Unit->Set_View(this);
 		Unit->Render();
+	}
+		
 	
 	DEVICE->Render_End();
 }
@@ -191,8 +195,9 @@ void CToolView::OnDestroy()
 
 void CToolView::OnLButtonDown(UINT nFlags, CPoint point)
 {
+	UpdateData(TRUE);
 	CScrollView::OnLButtonDown(nFlags, point);
-
+	
 	CMainFrame*		pMainFrm = dynamic_cast<CMainFrame*>(AfxGetApp()->GetMainWnd());
 	CMyForm*		pMyForm = dynamic_cast<CMyForm*>(pMainFrm->m_SecondSplitter.GetPane(1, 0));
 
@@ -204,6 +209,7 @@ void CToolView::OnLButtonDown(UINT nFlags, CPoint point)
 		m_vecUnit.back()->Set_Installed();
 		CObj* pUnit = new CUnit;
 		pUnit->Initialize();
+		pUnit->Set_Pos(::Get_Mouse().x + GetScrollPos(0), ::Get_Mouse().y + GetScrollPos(1));
 		m_vecUnit.push_back(pUnit);
 	}
 		break;
@@ -220,6 +226,7 @@ void CToolView::OnLButtonDown(UINT nFlags, CPoint point)
 	CMiniView*		pMiniView = dynamic_cast<CMiniView*>(pMainFrm->m_SecondSplitter.GetPane(0, 0));
 
 	pMiniView->Invalidate(FALSE);
+	UpdateData(FALSE);
 }
 
 void CToolView::OnRButtonDown(UINT nFlags, CPoint point)

@@ -15,6 +15,6 @@ public:
 	virtual void Render(void) override;
 	virtual void Mini_Render(void) override;
 
-private:
+public:
 	UNITDATA				m_tUnitData;
 };
