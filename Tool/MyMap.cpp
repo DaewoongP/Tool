@@ -85,7 +85,7 @@ void CMyMap::Mini_Render(void)
 		0.f);
 	matWorld = matScale * matTrans;
 
-	Set_Ratio(&matWorld, 1.f, 1.f);
+	Set_Ratio(&matWorld, 0.3f, 0.3f);
 	
 	DEVICE->Get_Sprite()->SetTransform(&matWorld);
 
