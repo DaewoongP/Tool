@@ -14,6 +14,7 @@
 #include "MainFrm.h"
 #include "MyTerrain.h"
 #include "MiniView.h"
+#include "MyMap.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -38,7 +39,7 @@ END_MESSAGE_MAP()
 HWND	g_hWnd;
 
 CToolView::CToolView()
-	:m_pTerrain(nullptr)
+	:m_pTerrain(nullptr), m_pMap(nullptr), m_iTileX(TILEX), m_iTileY(TILEY)
 {
 	m_Tile.byDrawID = 0;
 	m_Tile.byOption = 1;
@@ -103,7 +104,7 @@ void CToolView::OnInitialUpdate()
 {
 	CScrollView::OnInitialUpdate();
 
-	SetScrollSizes(MM_TEXT, CSize(TILECX * TILEX, TILECY * TILEY / 2));
+	SetScrollSizes(MM_TEXT, CSize(TILECX * m_iTileX, TILECY * m_iTileY / 2));
 
 	RECT	rcWnd{};
 	CMainFrame*	pMainFrm = (CMainFrame*)AfxGetMainWnd();
@@ -135,6 +136,16 @@ void CToolView::OnInitialUpdate()
 	}
 
 	m_pTerrain->Set_MainView(this);
+
+	m_pMap = new CMyMap;
+
+	if (FAILED(m_pMap->Initialize()))
+	{
+		AfxMessageBox(L"MyMap Create Failed");
+		return;
+	}
+
+	m_pMap->Set_MainView(this);
 }
 
 // CToolView 그리기
@@ -146,19 +157,18 @@ void CToolView::OnDraw(CDC* /*pDC*/)
 	if (!pDoc)
 		return;
 
-	// TODO: 여기에 원시 데이터에 대한 그리기 코드를 추가합니다.
-
 	DEVICE->Render_Begin();
 
+	m_pMap->Render();
 	m_pTerrain->Render();
-
+	
 	DEVICE->Render_End();
 }
 
 void CToolView::OnDestroy()
 {
 	CScrollView::OnDestroy();
-
+	Safe_Delete(m_pMap);
 	Safe_Delete(m_pTerrain);
 	TEXTURE->Destroy_Instance();
 	DEVICE->Destroy_Instance();

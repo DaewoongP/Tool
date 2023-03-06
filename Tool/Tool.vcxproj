@@ -205,6 +205,7 @@
     <ClInclude Include="MiniView.h" />
     <ClInclude Include="MultiTexture.h" />
     <ClInclude Include="MyForm.h" />
+    <ClInclude Include="MyMap.h" />
     <ClInclude Include="MyTerrain.h" />
     <ClInclude Include="Obj.h" />
     <ClInclude Include="ObjTool.h" />
@@ -228,6 +229,7 @@
     <ClCompile Include="MiniView.cpp" />
     <ClCompile Include="MultiTexture.cpp" />
     <ClCompile Include="MyForm.cpp" />
+    <ClCompile Include="MyMap.cpp" />
     <ClCompile Include="MyTerrain.cpp" />
     <ClCompile Include="Obj.cpp" />
     <ClCompile Include="ObjTool.cpp" />

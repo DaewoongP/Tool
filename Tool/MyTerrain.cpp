@@ -7,6 +7,8 @@
 CMyTerrain::CMyTerrain()
 	:m_pMainView(nullptr), m_bRender(true)
 {
+	m_iTileX = TILEX;
+	m_iTileY = TILEY;
 	m_vecTile.reserve(TILEX * TILEY);
 }
 
@@ -23,9 +25,9 @@ HRESULT CMyTerrain::Initialize(void)
 		return E_FAIL;
 	}
 
-	for (int i = 0; i < TILEY; ++i)
+	for (int i = 0; i < m_iTileY; ++i)
 	{
-		for (int j = 0; j < TILEX; ++j)
+		for (int j = 0; j < m_iTileX; ++j)
 		{
 			TILE*		pTile = new TILE;
 
@@ -122,7 +124,7 @@ void CMyTerrain::Mini_Render(void)
 
 		matWorld = matScale * matTrans;
 
-		Set_Ratio(&matWorld, 0.315f, 0.608f);
+		Set_Ratio(&matWorld, 0.3f, 0.3f);
 
 		const TEXINFO*	pTexInfo = TEXTURE->Get_Texture(L"Terrain", L"Tile", pTile->byDrawID);
 		if (nullptr == pTexInfo)
