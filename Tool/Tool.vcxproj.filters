@@ -70,6 +70,12 @@
     <Filter Include="05. Etc\02. Map">
       <UniqueIdentifier>{286a0ae3-c08a-4e85-96de-a19ffac0d11f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="05. Etc\00. Obj\01. Unit">
+      <UniqueIdentifier>{272822a2-4eff-4e78-831d-f3fe44ecda85}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. View\MyForm\PathFind">
+      <UniqueIdentifier>{508bf5e5-300d-4d37-b941-ff5d471f4f85}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainFrm.h">
@@ -138,6 +144,12 @@
     <ClInclude Include="MyMap.h">
       <Filter>05. Etc\02. Map</Filter>
     </ClInclude>
+    <ClInclude Include="Unit.h">
+      <Filter>05. Etc\00. Obj\01. Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="PathFind.h">
+      <Filter>01. View\MyForm\PathFind</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MainFrm.cpp">
@@ -199,6 +211,12 @@
     </ClCompile>
     <ClCompile Include="MyMap.cpp">
       <Filter>05. Etc\02. Map</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit.cpp">
+      <Filter>05. Etc\00. Obj\01. Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="PathFind.cpp">
+      <Filter>01. View\MyForm\PathFind</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

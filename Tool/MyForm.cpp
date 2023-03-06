@@ -10,7 +10,7 @@
 #include "MyTerrain.h"
 #include "FileInfo.h"
 #include "MyMap.h"
-
+#include "Unit.h"
 // CMyForm
 
 IMPLEMENT_DYNCREATE(CMyForm, CFormView)
@@ -46,6 +46,7 @@ BEGIN_MESSAGE_MAP(CMyForm, CFormView)
 	ON_NOTIFY(TVN_SELCHANGED, IDC_MAIN_TREE, &CMyForm::OnTreeCtrl)
 	ON_WM_DESTROY()
 	ON_BN_CLICKED(IDC_TILE_SIZE_BTN, &CMyForm::OnTileXYBtn)
+	ON_LBN_DBLCLK(IDC_MAIN_LB, &CMyForm::OnListBoxDoubleClick)
 END_MESSAGE_MAP()
 
 
@@ -237,6 +238,12 @@ void CMyForm::OnTreeCtrl(NMHDR *pNMHDR, LRESULT *pResult)
 		cstrClicked == TEXT("Tile") ||
 		cstrClicked == TEXT("Map"))
 	{
+		if (cstrClicked == TEXT("Object"))
+		{
+			CMainFrame*		pMainFrm = dynamic_cast<CMainFrame*>(AfxGetApp()->GetMainWnd());
+			CToolView*		pToolView = dynamic_cast<CToolView*>(pMainFrm->m_MainSplitter.GetPane(0, 0));
+			pToolView->m_ePickMod = PICK_OBJ;
+		}
 		cstrClicked = cstrClicked + L" Detail";
 		m_DetailBtn.SetWindowText(cstrClicked);
 	}
@@ -314,4 +321,26 @@ void CMyForm::OnTileXYBtn()
 	CMiniView*		pMiniView = dynamic_cast<CMiniView*>(pMainFrm->m_SecondSplitter.GetPane(0, 0));
 
 	pMiniView->Invalidate(FALSE);
+}
+
+
+void CMyForm::OnListBoxDoubleClick()
+{
+	CMainFrame*		pMainFrm = dynamic_cast<CMainFrame*>(AfxGetApp()->GetMainWnd());
+	CToolView*		pToolView = dynamic_cast<CToolView*>(pMainFrm->m_MainSplitter.GetPane(0, 0));
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	switch (pToolView->m_ePickMod)
+	{
+	case PICK_OBJ:
+	{
+		CUnit* pUnit = new CUnit;
+		pUnit->Initialize();
+		pToolView->m_vecUnit.push_back(pUnit);
+	}
+		break;
+	case PICK_TILE:
+		break;
+	default:
+		break;
+	}
 }

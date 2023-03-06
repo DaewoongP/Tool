@@ -1,6 +1,6 @@
 #pragma once
 #include "afxwin.h"
-
+#include "PathFind.h"
 
 // CObjTool 대화 상자입니다.
 
@@ -29,6 +29,7 @@ protected:
 	afx_msg void OnFindEdit();
 	afx_msg void OnDestroy();
 	afx_msg void OnObjListBox();
+	afx_msg void OnBnClickedOk();
 	DECLARE_MESSAGE_MAP()
 	void SetAll(CString strFindName);
 
@@ -45,4 +46,6 @@ public:
 	CButton m_Collision_Check;
 
 	CString m_strFindName;
+	afx_msg void OnBnClickedObjPathfind();
+	CPathFind   m_PathFind;
 };

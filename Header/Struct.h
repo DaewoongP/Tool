@@ -44,8 +44,6 @@ typedef struct tagUnitData
 	int			iAttack;
 	int			iHp;
 	bool		bCollision;
-	wstring		wstrPath;
-
 }UNITDATA;
 
 

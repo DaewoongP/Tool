@@ -209,6 +209,7 @@
     <ClInclude Include="MyTerrain.h" />
     <ClInclude Include="Obj.h" />
     <ClInclude Include="ObjTool.h" />
+    <ClInclude Include="PathFind.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="SingleTexture.h" />
     <ClInclude Include="stdafx.h" />
@@ -219,6 +220,7 @@
     <ClInclude Include="Tool.h" />
     <ClInclude Include="ToolDoc.h" />
     <ClInclude Include="ToolView.h" />
+    <ClInclude Include="Unit.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Device.cpp" />
@@ -233,6 +235,7 @@
     <ClCompile Include="MyTerrain.cpp" />
     <ClCompile Include="Obj.cpp" />
     <ClCompile Include="ObjTool.cpp" />
+    <ClCompile Include="PathFind.cpp" />
     <ClCompile Include="SingleTexture.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -246,6 +249,7 @@
     <ClCompile Include="Tool.cpp" />
     <ClCompile Include="ToolDoc.cpp" />
     <ClCompile Include="ToolView.cpp" />
+    <ClCompile Include="Unit.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Tool.rc" />

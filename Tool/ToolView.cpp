@@ -15,6 +15,7 @@
 #include "MyTerrain.h"
 #include "MiniView.h"
 #include "MyMap.h"
+#include "Unit.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -32,6 +33,8 @@ BEGIN_MESSAGE_MAP(CToolView, CScrollView)
 	ON_COMMAND(ID_FILE_PRINT_PREVIEW, &CScrollView::OnFilePrintPreview)
 	ON_WM_DESTROY()
 	ON_WM_LBUTTONDOWN()
+	ON_WM_RBUTTONDOWN()
+	ON_WM_MOUSEMOVE()
 END_MESSAGE_MAP()
 
 // CToolView 생성/소멸
@@ -127,7 +130,7 @@ void CToolView::OnInitialUpdate()
 		AfxMessageBox(L"Device Create Failed");
 		return;
 	}
-
+	
 	m_pTerrain = new CMyTerrain;
 
 	if (FAILED(m_pTerrain->Initialize()))
@@ -143,6 +146,12 @@ void CToolView::OnInitialUpdate()
 	if (FAILED(m_pMap->Initialize()))
 	{
 		AfxMessageBox(L"MyMap Create Failed");
+		return;
+	}
+
+	if (FAILED(CTextureMgr::Get_Instance()->Read_ImgPath(L"../Data/ImgPath.txt")))
+	{
+		ERR_MSG(L"Image Load failed");
 		return;
 	}
 
@@ -163,6 +172,9 @@ void CToolView::OnDraw(CDC* /*pDC*/)
 	m_pMap->Render();
 	m_pTerrain->Render();
 	
+	for(auto& Unit : m_vecUnit)
+		Unit->Render();
+	
 	DEVICE->Render_End();
 }
 
@@ -171,6 +183,7 @@ void CToolView::OnDestroy()
 	CScrollView::OnDestroy();
 	Safe_Delete(m_pMap);
 	Safe_Delete(m_pTerrain);
+	for_each(m_vecUnit.begin(), m_vecUnit.end(), Safe_Delete<CObj*>);
 	TEXTURE->Destroy_Instance();
 	DEVICE->Destroy_Instance();
 }
@@ -181,12 +194,18 @@ void CToolView::OnLButtonDown(UINT nFlags, CPoint point)
 	CScrollView::OnLButtonDown(nFlags, point);
 
 	CMainFrame*		pMainFrm = dynamic_cast<CMainFrame*>(AfxGetApp()->GetMainWnd());
-	CMyForm*		pMyForm = dynamic_cast<CMyForm*>(pMainFrm->m_SecondSplitter.GetPane(0, 0));
+	CMyForm*		pMyForm = dynamic_cast<CMyForm*>(pMainFrm->m_SecondSplitter.GetPane(1, 0));
 
 	switch (m_ePickMod)
 	{
 	case PICK_OBJ:
-		// 오브젝트 피킹
+	{
+		m_vecUnit.back()->Set_Alpha(255);
+		m_vecUnit.back()->Set_Installed();
+		CObj* pUnit = new CUnit;
+		pUnit->Initialize();
+		m_vecUnit.push_back(pUnit);
+	}
 		break;
 	case PICK_TILE:
 		m_pTerrain->TileChange(D3DXVECTOR3(float(point.x) + GetScrollPos(0),
@@ -201,4 +220,45 @@ void CToolView::OnLButtonDown(UINT nFlags, CPoint point)
 	CMiniView*		pMiniView = dynamic_cast<CMiniView*>(pMainFrm->m_SecondSplitter.GetPane(0, 0));
 
 	pMiniView->Invalidate(FALSE);
+}
+
+void CToolView::OnRButtonDown(UINT nFlags, CPoint point)
+{
+	CScrollView::OnRButtonDown(nFlags, point);
+	
+	if (PICK_OBJ == m_ePickMod)
+	{
+		auto iter = m_vecUnit.end() - 1;
+		Safe_Delete(m_vecUnit.back());
+		m_vecUnit.erase(iter);
+		m_ePickMod = PICK_END;
+	}
+
+	Invalidate(FALSE);
+		
+}
+
+void CToolView::OnMouseMove(UINT nFlags, CPoint point)
+{
+	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+
+	CScrollView::OnMouseMove(nFlags, point);
+	
+	switch (m_ePickMod)
+	{
+	case PICK_OBJ:
+		if (m_vecUnit.empty())
+			break;
+		if (true == m_vecUnit.back()->Get_Installed())
+			break;
+
+		m_vecUnit.back()->Set_Pos(Get_Mouse().x, Get_Mouse().y);
+		break;
+	case PICK_TILE:
+		break;
+	default:
+		break;
+	}
+
+	Invalidate(FALSE);
 }

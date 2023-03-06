@@ -4,6 +4,8 @@
 #include "stdafx.h"
 #include "Tool.h"
 #include "ObjTool.h"
+#include "MainFrm.h"
+#include "ToolView.h"
 #include "afxdialogex.h"
 
 
@@ -53,6 +55,8 @@ BEGIN_MESSAGE_MAP(CObjTool, CDialog)
 	ON_WM_DESTROY()
 	ON_EN_CHANGE(IDC_OBJ_FIND_EDIT, &CObjTool::OnFindEdit)
 	ON_LBN_SELCHANGE(IDC_OBJ_OBJLIST, &CObjTool::OnObjListBox)
+	ON_BN_CLICKED(IDOK, &CObjTool::OnBnClickedOk)
+	ON_BN_CLICKED(IDC_OBJ_PATHFIND, &CObjTool::OnBnClickedObjPathfind)
 END_MESSAGE_MAP()
 
 
@@ -62,14 +66,14 @@ BOOL CObjTool::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 	UpdateData(TRUE);
-	
+
 	// TODO:  여기에 추가 초기화 작업을 추가합니다.
 	m_Type_Combo.AddString(L"Creature");
 	m_Type_Combo.AddString(L"NonCreature");
 	m_Type_Combo.SetCurSel(0);
 
 	UpdateData(FALSE);
-	return TRUE;  
+	return TRUE;
 }
 
 void CObjTool::OnAddBtn()
@@ -84,7 +88,7 @@ void CObjTool::OnAddBtn()
 
 	// 유닛 생성
 	UNITDATA* pUnit = new UNITDATA;
-	
+
 	pUnit->iType = m_Type_Combo.GetCurSel();
 	pUnit->iLayer = m_iLayer;
 	pUnit->iLayer = min(pUnit->iLayer, 10);
@@ -94,7 +98,7 @@ void CObjTool::OnAddBtn()
 	pUnit->iAttack = m_iAttack;
 	pUnit->iHp = m_iHp;
 	pUnit->bCollision = m_Collision_Check.GetCheck();
-	
+
 	m_mapUnitData.insert({ pUnit->strName , pUnit });
 
 	m_Obj_ListBox.AddString(pUnit->strName);
@@ -139,9 +143,40 @@ void CObjTool::OnEditBtn()
 
 void CObjTool::OnSaveBtn()
 {
-	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-	UpdateData(TRUE);
-	UpdateData(FALSE);
+	TCHAR	szPath[MAX_PATH] = L"";
+
+	GetCurrentDirectory(MAX_PATH, szPath);
+	PathRemoveFileSpec(szPath);
+
+	lstrcat(szPath, L"\\Data\\Object\\Obj1.dat");
+
+	// GetPathName : 선택된 경로를 반환
+
+	const TCHAR*	pGetPath = szPath;
+
+	HANDLE hFile = CreateFile(pGetPath, GENERIC_WRITE, 0, 0, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0);
+	if (INVALID_HANDLE_VALUE == hFile)
+ 		return;
+
+	DWORD	dwByte = 0;
+	DWORD	dwStrByte = 0;
+
+	for (auto& MyPair : m_mapUnitData)
+	{
+		// key값 저장
+		dwStrByte = sizeof(TCHAR) * (MyPair.first.GetLength() + 1);
+		WriteFile(hFile, &dwStrByte, sizeof(DWORD), &dwByte, nullptr);
+		WriteFile(hFile, MyPair.first.GetString(), dwStrByte, &dwByte, nullptr);
+
+		// value 값 저장
+		WriteFile(hFile, &(MyPair.second->iType), sizeof(int), &dwByte, nullptr);
+		WriteFile(hFile, &(MyPair.second->iLayer), sizeof(int), &dwByte, nullptr);
+		WriteFile(hFile, &(MyPair.second->iAttack), sizeof(int), &dwByte, nullptr);
+		WriteFile(hFile, &(MyPair.second->iHp), sizeof(int), &dwByte, nullptr);
+		WriteFile(hFile, &(MyPair.second->bCollision), sizeof(int), &dwByte, nullptr);
+	}
+
+	CloseHandle(hFile);
 }
 
 
@@ -149,7 +184,75 @@ void CObjTool::OnLoadBtn()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 	UpdateData(TRUE);
-	UpdateData(FALSE);
+
+	TCHAR	szPath[MAX_PATH] = L"";
+
+	// GetCurrentDirectory : 현재 프로젝트가 있는 디렉토리 경로를 얻어오는 함수
+	GetCurrentDirectory(MAX_PATH, szPath);
+	PathRemoveFileSpec(szPath);
+
+	lstrcat(szPath, L"\\Data\\Object\\Obj1.dat");
+
+
+	for (auto& MyPair : m_mapUnitData)
+		delete MyPair.second;
+	m_mapUnitData.clear();
+	m_Obj_ListBox.ResetContent();
+
+	CString		str = szPath;
+	const TCHAR*	pGetPath = str.GetString();
+
+	HANDLE hFile = CreateFile(pGetPath,
+		GENERIC_READ,
+		0,
+		0,
+		OPEN_EXISTING,
+		FILE_ATTRIBUTE_NORMAL, 0);
+
+	if (INVALID_HANDLE_VALUE == hFile)
+		return;
+
+	DWORD	dwByte = 0;
+	DWORD	dwStrByte = 0;
+	UNITDATA	tData{};
+
+	while (true)
+	{
+		ReadFile(hFile, &dwStrByte, sizeof(DWORD), &dwByte, nullptr);
+
+		TCHAR*		pName = new TCHAR[dwStrByte];
+		ReadFile(hFile, pName, dwStrByte, &dwByte, nullptr);
+
+		// value
+		ReadFile(hFile, &(tData.iAttack), sizeof(int), &dwByte, nullptr);
+		ReadFile(hFile, &(tData.iHp), sizeof(int), &dwByte, nullptr);
+
+		if (0 == dwByte)
+		{
+			delete[]pName;
+			pName = nullptr;
+
+			break;
+		}
+
+		UNITDATA*	pUnit = new UNITDATA;
+		pUnit->strName = pName;
+
+		delete[]pName;
+		pName = nullptr;
+
+		pUnit->iType = tData.iType;
+		pUnit->iLayer = tData.iLayer;
+		pUnit->iAttack = tData.iAttack;
+		pUnit->iHp = tData.iHp;
+		pUnit->bCollision = tData.bCollision;
+
+		m_mapUnitData.insert({ pUnit->strName, pUnit });
+		m_Obj_ListBox.AddString(pUnit->strName);
+
+	}
+
+	CloseHandle(hFile);
 }
 
 
@@ -240,4 +343,24 @@ void CObjTool::OnObjListBox()
 	SetAll(strFindName);
 
 	UpdateData(FALSE);
+}
+
+
+void CObjTool::OnBnClickedOk()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	CDialog::OnOK();
+	CMainFrame*		pMainFrm = dynamic_cast<CMainFrame*>(AfxGetApp()->GetMainWnd());
+	CToolView*		pToolView = dynamic_cast<CToolView*>(pMainFrm->m_MainSplitter.GetPane(0, 0));
+
+	pToolView->m_ePickMod = PICK_OBJ;
+}
+
+void CObjTool::OnBnClickedObjPathfind()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	if (nullptr == m_PathFind.GetSafeHwnd())
+		m_PathFind.Create(IDD_PATHFIND);
+
+	m_PathFind.ShowWindow(SW_SHOW);
 }

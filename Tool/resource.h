@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
-// Microsoft Visual C++ÏóêÏÑú ÏÉùÏÑ±Ìïú Ìè¨Ìï® ÌååÏùºÏûÖÎãàÎã§.
-// Tool.rcÏóêÏÑú ÏÇ¨Ïö©ÎêòÍ≥† ÏûàÏäµÎãàÎã§.
+// Microsoft Visual C++ø°º≠ ª˝º∫«— ∆˜«‘ ∆ƒ¿œ¿‘¥œ¥Ÿ.
+// Tool.rcø°º≠ ªÁøÎµ«∞Ì ¿÷Ω¿¥œ¥Ÿ.
 //
 #define IDD_ABOUTBOX                    100
 #define IDP_OLE_INIT_FAILED             100
@@ -10,6 +10,7 @@
 #define IDD_MAPTOOL                     311
 #define IDD_TILETOOL                    312
 #define IDD_OBJTOOL                     313
+#define IDD_PATHFIND                    314
 #define IDC_MAIN_TREE                   1001
 #define IDC_MAIN_LB                     1002
 #define IDC_FILE_PC                     1003
@@ -47,15 +48,18 @@
 #define IDC_OBJ_HP_STATIC               1232
 #define IDC_OBJ_ATTACK_STATIC           1233
 #define IDC_OBJ_PICTURE                 1234
+#define IDC_OBJ_PATHFIND                1236
+#define IDC_PATH_LIST1                  1237
+#define IDC_PATH_SAVEBTN                1238
+#define IDC_PATH_LOADBTN                1239
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        315
+#define _APS_NEXT_RESOURCE_VALUE        316
 #define _APS_NEXT_COMMAND_VALUE         32776
-
-#define _APS_NEXT_CONTROL_VALUE         1035
-#define _APS_NEXT_SYMED_VALUE           314
+#define _APS_NEXT_CONTROL_VALUE         1040
+#define _APS_NEXT_SYMED_VALUE           315
 #endif
 #endif
