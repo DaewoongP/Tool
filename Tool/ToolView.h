@@ -7,6 +7,7 @@
 class CMyTerrain;
 class CToolDoc;
 class CMyMap;
+class CObj;
 class CToolView : public CScrollView
 {
 protected: // serialization에서만 만들어집니다.
@@ -45,7 +46,10 @@ protected:
 public:
 	virtual void OnInitialUpdate();
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
+	afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
+	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
 	afx_msg void OnDestroy();
+
 public:
 	CMyTerrain*			m_pTerrain;
 	CMyMap*				m_pMap;
@@ -53,6 +57,7 @@ public:
 	int					m_iTileX;
 	int					m_iTileY;
 	PICKMOD				m_ePickMod;
+	vector<CObj*>		m_vecUnit;
 };
 
 #ifndef _DEBUG  // ToolView.cpp의 디버그 버전

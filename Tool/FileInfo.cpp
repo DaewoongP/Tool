@@ -161,3 +161,18 @@ int CFileInfo::DirCnt(const wstring & wstrPath)
 
 	return iDirCnt;
 }
+
+int CFileInfo::ExtractIntOfBackFromCString(CString & cstr)
+{
+	int i = 0;
+	for (; i < cstr.GetLength(); ++i)
+	{
+		// isdigit : 매개 변수로 넘겨받은 문자가 글자형 문자인지 숫자형 문자인기 구분해주는 함수
+		// 숫자 형 문자라 판단할 경우 0이 아닌 값을 반환
+		if (0 != isdigit(cstr[i]))
+			break;
+	}
+	cstr.Delete(0, i);
+	
+	return _tstoi(cstr);
+}
