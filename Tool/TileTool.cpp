@@ -86,7 +86,7 @@ BOOL CTileTool::OnCommand(WPARAM wParam, LPARAM lParam)
 			m_strTile += strNum;
 
 			m_TileSplit.SetWindowText(m_strTile);
-			AfxMessageBox(_T("?Ä??: ") + m_strTile);
+			AfxMessageBox(_T("Change : ") + m_strTile);
 		}
 	}
 	return CDialog::OnCommand(wParam, lParam);
@@ -226,7 +226,7 @@ void CTileTool::OnDeleteBtnClicked()
 		if (DeleteFile(pGetPath) == TRUE)
 		{
 			CString strDel;
-			strDel = m_strTile + L" ?åÏùº ??†ú ?ÑÎ£å";
+			strDel = m_strTile;
 			m_TileListBox.DeleteString(m_TileListBox.GetCurSel());
 			AfxMessageBox(strDel);
 		}

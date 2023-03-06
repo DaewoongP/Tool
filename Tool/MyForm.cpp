@@ -17,8 +17,8 @@ IMPLEMENT_DYNCREATE(CMyForm, CFormView)
 
 CMyForm::CMyForm()
 	: CFormView(IDD_MYFORM)
-	, m_iTileX(0)
-	, m_iTileY(0)
+	, m_iTileX(TILEX)
+	, m_iTileY(TILEY)
 {
 
 }
@@ -47,6 +47,8 @@ BEGIN_MESSAGE_MAP(CMyForm, CFormView)
 	ON_WM_DESTROY()
 	ON_BN_CLICKED(IDC_TILE_SIZE_BTN, &CMyForm::OnTileXYBtn)
 	ON_LBN_DBLCLK(IDC_MAIN_LB, &CMyForm::OnListBoxDoubleClick)
+	ON_BN_CLICKED(IDC_SAVE_ALL_BTN, &CMyForm::OnBnClickedSaveAllBtn)
+	ON_BN_CLICKED(IDC_LOAD_ALL_BTN, &CMyForm::OnBnClickedLoadAllBtn)
 END_MESSAGE_MAP()
 
 
@@ -274,23 +276,21 @@ void CMyForm::DrawMap()
 	if (m_Tree.GetItemText(m_Tree.GetSelectedItem()) != _T("Stage"))
 		return;
 
-	TCHAR	strMapName[MAX_STR] = L"";
-	m_ListBox.GetText(m_ListBox.GetCurSel(), strMapName);
+	m_ListBox.GetText(m_ListBox.GetCurSel(), m_strMapName);
 
 	TCHAR	szPath[MAX_PATH] = L"";
 
 	GetCurrentDirectory(MAX_PATH, szPath);
 	PathRemoveFileSpec(szPath);
-	wstring wstrPath = szPath;
-	Make_Path(wstrPath, m_Tree.GetSelectedItem());
+	m_wstrPath = szPath;
+	Make_Path(m_wstrPath, m_Tree.GetSelectedItem());
 
-	wstrPath = wstrPath + L"\\" + strMapName + L".png";
-	
+	m_wstrPath = m_wstrPath + L"\\" + m_strMapName + L".png";
 
 	CMainFrame*		pMainFrm = dynamic_cast<CMainFrame*>(AfxGetApp()->GetMainWnd());
 	CToolView*		pToolView = dynamic_cast<CToolView*>(pMainFrm->m_MainSplitter.GetPane(0, 0));
 
-	dynamic_cast<CMyMap*>(pToolView->m_pMap)->Set_Name(wstrPath.c_str(), strMapName);
+	dynamic_cast<CMyMap*>(pToolView->m_pMap)->Set_Name(m_wstrPath.c_str(), m_strMapName);
 
 	pToolView->Invalidate(FALSE);
 	CMiniView*		pMiniView = dynamic_cast<CMiniView*>(pMainFrm->m_SecondSplitter.GetPane(0, 0));
@@ -324,6 +324,7 @@ void CMyForm::OnTileXYBtn()
 }
 
 
+
 void CMyForm::OnListBoxDoubleClick()
 {
 	CMainFrame*		pMainFrm = dynamic_cast<CMainFrame*>(AfxGetApp()->GetMainWnd());
@@ -344,3 +345,163 @@ void CMyForm::OnListBoxDoubleClick()
 		break;
 	}
 }
+
+void CMyForm::OnBnClickedSaveAllBtn()
+{
+	UpdateData(TRUE);
+	CMainFrame*		pMainFrm = dynamic_cast<CMainFrame*>(AfxGetApp()->GetMainWnd());
+	CToolView*		pToolView = dynamic_cast<CToolView*>(pMainFrm->m_MainSplitter.GetPane(0, 0));
+	vector<TILE*>	vecTile = dynamic_cast<CMyTerrain*>(pToolView->m_pTerrain)->Get_vecTile();
+
+	CFileDialog		Dlg(FALSE,
+		L"dat",
+		L"*.dat",
+		OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT,
+		L"Data Files(*.dat)|*.dat||",
+		this);
+
+	TCHAR	szPath[MAX_PATH] = L"";
+	GetCurrentDirectory(MAX_PATH, szPath);
+	PathRemoveFileSpec(szPath);
+
+	lstrcat(szPath, L"\\Data");
+	Dlg.m_ofn.lpstrInitialDir = szPath;
+
+	if (IDOK == Dlg.DoModal())
+	{
+		CString		str = Dlg.GetPathName().GetString();
+		const TCHAR*	pGetPath = str.GetString();
+
+		HANDLE hFile = CreateFile(pGetPath, GENERIC_WRITE, 0, 0, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0);
+		if (INVALID_HANDLE_VALUE == hFile)
+			return;
+
+		DWORD	dwByte = 0;
+		DWORD	dwStrByte = 0;
+		int		iTileCnt = m_iTileX * m_iTileY;
+		WriteFile(hFile, &m_iTileX, sizeof(int), &dwByte, nullptr);
+		WriteFile(hFile, &m_iTileY, sizeof(int), &dwByte, nullptr);
+		WriteFile(hFile, &iTileCnt, sizeof(int), &dwByte, nullptr);
+		for (auto& Tile : vecTile)
+		{
+			WriteFile(hFile, &(Tile->vPos), sizeof(VERTEX), &dwByte, nullptr);
+			WriteFile(hFile, &(Tile->vSize), sizeof(VERTEX), &dwByte, nullptr);
+			WriteFile(hFile, &(Tile->byDrawID), sizeof(BYTE), &dwByte, nullptr);
+			WriteFile(hFile, &(Tile->byOption), sizeof(BYTE), &dwByte, nullptr);
+		}
+		// Unit List 돌면서 저장
+
+
+		// Map name 저장
+		dwStrByte = 0;
+		dwStrByte = sizeof(TCHAR) * (lstrlen(m_strMapName) + 1);
+		WriteFile(hFile, &dwStrByte, sizeof(DWORD), &dwByte, nullptr);
+		WriteFile(hFile, m_strMapName, dwStrByte, &dwByte, nullptr);
+		// Map Path 저장
+		dwStrByte = 0;
+		TCHAR pPath[MAX_STR] = L"";
+		lstrcpy(pPath, m_wstrPath.c_str());
+		dwStrByte = sizeof(TCHAR) * (lstrlen(pPath) + 1);
+		WriteFile(hFile, &dwStrByte, sizeof(DWORD), &dwByte, nullptr);
+		WriteFile(hFile, &pPath, dwStrByte, &dwByte, nullptr);
+
+		CloseHandle(hFile);
+	}
+
+	UpdateData(FALSE);
+}
+
+
+void CMyForm::OnBnClickedLoadAllBtn()
+{
+	UpdateData(TRUE);
+	CMainFrame*		pMainFrm = dynamic_cast<CMainFrame*>(AfxGetApp()->GetMainWnd());
+	CToolView*		pToolView = dynamic_cast<CToolView*>(pMainFrm->m_MainSplitter.GetPane(0, 0));
+
+	CFileDialog		Dlg(TRUE,
+		L"dat",
+		L"*.dat",
+		OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT,
+		L"Data Files(*.dat)|*.dat||",
+		this);
+
+	TCHAR	szPath[MAX_PATH] = L"";
+	GetCurrentDirectory(MAX_PATH, szPath);
+	PathRemoveFileSpec(szPath);
+	lstrcat(szPath, L"\\Data");
+	Dlg.m_ofn.lpstrInitialDir = szPath;
+
+	if (IDOK == Dlg.DoModal())
+	{
+		CString		str = Dlg.GetPathName().GetString();
+		const TCHAR*	pGetPath = str.GetString();
+
+		HANDLE hFile = CreateFile(pGetPath,
+			GENERIC_READ,
+			0,
+			0,
+			OPEN_EXISTING,
+			FILE_ATTRIBUTE_NORMAL, 0);
+
+		if (INVALID_HANDLE_VALUE == hFile)
+			return;
+
+		DWORD	dwByte = 0;
+		DWORD	dwStrByte = 0;
+		UNITDATA	tData{};
+		// 불러온 타일을 넣어줄 벡터
+		vector<TILE*>	vecTile;
+		// 저장된 타일의 개수
+		int iTileCnt = 0;
+		// 맨앞에 타일의 개수가 저장되어 있으므로 그걸 가져옴
+		ReadFile(hFile, &m_iTileX, sizeof(int), &dwByte, nullptr);
+		ReadFile(hFile, &m_iTileY, sizeof(int), &dwByte, nullptr);
+		ReadFile(hFile, &iTileCnt, sizeof(int), &dwByte, nullptr);
+		dynamic_cast<CMyTerrain*>(pToolView->m_pTerrain)->Set_TileCnt(this->m_iTileX, this->m_iTileY);
+		if (0 == dwByte)
+			return;
+		// 타일의 개수만큼만 반복
+		for (int i = 0; i < iTileCnt; ++i)
+		{
+			TILE* Tile = new TILE;
+			ReadFile(hFile, &(Tile->vPos), sizeof(VERTEX), &dwByte, nullptr);
+			ReadFile(hFile, &(Tile->vSize), sizeof(VERTEX), &dwByte, nullptr);
+			ReadFile(hFile, &(Tile->byDrawID), sizeof(BYTE), &dwByte, nullptr);
+			ReadFile(hFile, &(Tile->byOption), sizeof(BYTE), &dwByte, nullptr);
+			if (0 == dwByte)
+			{
+				delete Tile;
+				Tile = nullptr;
+				break;
+			}
+			vecTile.push_back(Tile);
+		}
+		//타일 벡터를 터레인 클래스에 대입
+		dynamic_cast<CMyTerrain*>(pToolView->m_pTerrain)->Load_vecTile(vecTile);
+
+		// 유닛도 마찬가지로 for로 돌면서 대입
+
+
+		// 맵 로드
+		dwStrByte = 0;
+		ReadFile(hFile, &dwStrByte, sizeof(DWORD), &dwByte, nullptr);
+		ReadFile(hFile, m_strMapName, dwStrByte, &dwByte, nullptr);
+		dwStrByte = 0;
+		TCHAR  pPath[MAX_STR] = L"";
+		m_wstrPath = pPath;
+		ReadFile(hFile, &dwStrByte, sizeof(DWORD), &dwByte, nullptr);
+		ReadFile(hFile, pPath, dwStrByte, &dwByte, nullptr);
+
+		dynamic_cast<CMyMap*>(pToolView->m_pMap)->Set_Name(pPath, m_strMapName);
+		
+		CloseHandle(hFile);
+	}
+
+	UpdateData(FALSE);
+
+	pToolView->Invalidate(FALSE);
+	CMiniView*		pMiniView = dynamic_cast<CMiniView*>(pMainFrm->m_SecondSplitter.GetPane(0, 0));
+
+	pMiniView->Invalidate(FALSE);
+}
+
