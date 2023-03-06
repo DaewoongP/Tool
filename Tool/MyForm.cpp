@@ -281,6 +281,7 @@ void CMyForm::DrawMap()
 	TCHAR	szPath[MAX_PATH] = L"";
 
 	GetCurrentDirectory(MAX_PATH, szPath);
+	CFileInfo::ConvertRelativePath(szPath);
 	PathRemoveFileSpec(szPath);
 	m_wstrPath = szPath;
 	Make_Path(m_wstrPath, m_Tree.GetSelectedItem());
