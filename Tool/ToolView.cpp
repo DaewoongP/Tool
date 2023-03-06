@@ -40,6 +40,7 @@ HWND	g_hWnd;
 
 CToolView::CToolView()
 	:m_pTerrain(nullptr), m_pMap(nullptr), m_iTileX(TILEX), m_iTileY(TILEY)
+	, m_ePickMod(PICK_END)
 {
 	m_Tile.byDrawID = 0;
 	m_Tile.byOption = 1;
@@ -182,9 +183,19 @@ void CToolView::OnLButtonDown(UINT nFlags, CPoint point)
 	CMainFrame*		pMainFrm = dynamic_cast<CMainFrame*>(AfxGetApp()->GetMainWnd());
 	CMyForm*		pMyForm = dynamic_cast<CMyForm*>(pMainFrm->m_SecondSplitter.GetPane(0, 0));
 
-	m_pTerrain->TileChange(D3DXVECTOR3(float(point.x) + GetScrollPos(0),
-		float(point.y) + GetScrollPos(1), 0.f), m_Tile.byDrawID, m_Tile.byOption);
-
+	switch (m_ePickMod)
+	{
+	case PICK_OBJ:
+		// 오브젝트 피킹
+		break;
+	case PICK_TILE:
+		m_pTerrain->TileChange(D3DXVECTOR3(float(point.x) + GetScrollPos(0),
+			float(point.y) + GetScrollPos(1), 0.f), m_Tile.byDrawID, m_Tile.byOption);
+		break;
+	default:
+		break;
+	}
+	
 	Invalidate(FALSE);
 
 	CMiniView*		pMiniView = dynamic_cast<CMiniView*>(pMainFrm->m_SecondSplitter.GetPane(0, 0));

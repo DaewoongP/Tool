@@ -52,6 +52,7 @@ public:
 	TILE				m_Tile;
 	int					m_iTileX;
 	int					m_iTileY;
+	PICKMOD				m_ePickMod;
 };
 
 #ifndef _DEBUG  // ToolView.cpp의 디버그 버전

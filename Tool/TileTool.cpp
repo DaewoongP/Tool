@@ -244,9 +244,10 @@ void CTileTool::OnTileSelectBtnClicked()
 	else
 		pToolView->m_Tile.byOption = 1;
 
-	
 	if (0 <= _ttoi(m_strTile.Right(1)))
 		pToolView->m_Tile.byDrawID = _ttoi(m_strTile.Right(1));
+
+	pToolView->m_ePickMod = PICK_TILE;
 
 	CDialog::OnOK();
 }
