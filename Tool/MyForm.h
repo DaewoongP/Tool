@@ -36,6 +36,8 @@ public:
 	afx_msg void OnTreeCtrl(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OnDestroy();
 	afx_msg void OnTileXYBtn();
+	afx_msg void OnBnClickedSaveAllBtn();
+	afx_msg void OnBnClickedLoadAllBtn();
 private:
 	void Make_Tree(wstring& wstrPath, HTREEITEM parent);
 	void Make_Path(wstring& wstrOut, HTREEITEM curTree);
@@ -54,4 +56,7 @@ public:
 	CButton					m_DetailBtn;
 	int						m_iTileX;
 	int						m_iTileY;
+
+	TCHAR					m_strMapName[MAX_STR] = L"";
+	wstring					m_wstrPath = L"";
 };
