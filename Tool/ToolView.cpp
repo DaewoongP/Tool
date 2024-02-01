@@ -198,7 +198,7 @@ void CToolView::OnLButtonDown(UINT nFlags, CPoint point)
 	UpdateData(TRUE);
 	CScrollView::OnLButtonDown(nFlags, point);
 	
-	CMainFrame*		pMainFrm = dynamic_cast<CMainFrame*>(AfxGetApp()->GetMainWnd());
+	CMainFrame*		pMainFrm = dynamic_cast<CMainFrame*>(AfxGetApp()->GetMainWnd());	
 	CMyForm*		pMyForm = dynamic_cast<CMyForm*>(pMainFrm->m_SecondSplitter.GetPane(1, 0));
 
 	switch (m_ePickMod)

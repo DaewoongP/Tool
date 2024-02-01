@@ -26,8 +26,13 @@ public:
 	afx_msg void OnSaveData();
 	afx_msg void OnLoadData();
 	afx_msg void OnDropFiles(HDROP hDropInfo);
+	afx_msg void OnBnClickedButton1();
+	afx_msg void OnBnClickedPathClearButton();
+
 public:
 	CListBox m_ListBox;
 	list<IMGPATH*>		m_PathInfoList;
 
+private:
+	void Clear_InfoList();
 };

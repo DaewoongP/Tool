@@ -1,5 +1,0 @@
-Object|Etc|38|..\Texture\Object\Etc\Etc%d.png
-Object|Fence|16|..\Texture\Object\Fence\Fence%d.png
-Object|House|4|..\Texture\Object\House\House%d.png
-Object|Plant|19|..\Texture\Object\Plant\Plant%d.png
-Object|Tree|50|..\Texture\Object\Tree\Tree%d.png

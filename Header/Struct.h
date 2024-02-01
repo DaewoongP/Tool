@@ -65,6 +65,12 @@ typedef	struct tagTexturePath
 	wstring			wstrPath		= L"";
 	int				iCount			= 0;
 
+	tagTexturePath() {}
+	tagTexturePath(wstring _obj, wstring _state, wstring _path, int _count)
+		: wstrObjKey(_obj), wstrStateKey(_state), wstrPath(_path), iCount(_count) 
+	{}
+
+
 }IMGPATH;
 
 typedef	struct tagFrame

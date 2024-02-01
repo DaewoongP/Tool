@@ -70,7 +70,9 @@ END
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 IDR_MAINFRAME           ICON                    "res\\Tool.ico"
+
 IDR_ToolTYPE            ICON                    "res\\ToolDoc.ico"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -78,6 +80,7 @@ IDR_ToolTYPE            ICON                    "res\\ToolDoc.ico"
 //
 
 IDR_MAINFRAME           BITMAP                  "res\\Toolbar.bmp"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -266,7 +269,8 @@ BEGIN
     DEFPUSHBUTTON   "»Æ¿Œ",IDOK,262,179,50,14
     LISTBOX         IDC_PATH_LIST1,7,7,306,90,LBS_SORT | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP,WS_EX_ACCEPTFILES
     PUSHBUTTON      "save",IDC_PATH_SAVEBTN,20,146,50,14
-    PUSHBUTTON      "load",IDC_PATH_LOADBTN,88,148,50,14
+    PUSHBUTTON      "load",IDC_PATH_LOADBTN,82,146,50,14
+    PUSHBUTTON      "clear",IDC_PATH_CLEAR_BUTTON,146,146,50,14
 END
 
 

@@ -27,6 +27,7 @@
 #define IDC_TILE_SIZE_BTN               1016
 #define IDC_SAVE_ALL_BTN                1017
 #define IDC_LOAD_ALL_BTN                1018
+#define IDC_PATH_CLEAR_BUTTON           1040
 #define IDC_OBJ_TYPE_COMBO              1214
 #define IDC_OBJ_TYPE_STATIC             1215
 #define IDC_OBJ_NAME_EDIT               1216
@@ -59,7 +60,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        316
 #define _APS_NEXT_COMMAND_VALUE         32776
-#define _APS_NEXT_CONTROL_VALUE         1040
+#define _APS_NEXT_CONTROL_VALUE         1041
 #define _APS_NEXT_SYMED_VALUE           315
 #endif
 #endif

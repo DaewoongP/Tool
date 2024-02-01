@@ -20,8 +20,7 @@ CPathFind::CPathFind(CWnd* pParent /*=NULL*/)
 
 CPathFind::~CPathFind()
 {
-	for_each(m_PathInfoList.begin(), m_PathInfoList.end(), CDeleteObj());
-	m_PathInfoList.clear();
+	Clear_InfoList();
 }
 
 void CPathFind::DoDataExchange(CDataExchange* pDX)
@@ -36,6 +35,7 @@ BEGIN_MESSAGE_MAP(CPathFind, CDialog)
 	ON_BN_CLICKED(IDC_PATH_SAVEBTN, &CPathFind::OnSaveData)
 	ON_BN_CLICKED(IDC_PATH_LOADBTN, &CPathFind::OnLoadData)
 	ON_WM_DROPFILES()
+	ON_BN_CLICKED(IDC_PATH_CLEAR_BUTTON, &CPathFind::OnBnClickedPathClearButton)
 END_MESSAGE_MAP()
 
 
@@ -102,6 +102,7 @@ void CPathFind::OnLoadData()
 
 			wstrCombined = wstring(szObjKey) + L"|" + szStateKey + L"|" + szCount + L"|" + szPath;
 			m_ListBox.AddString(wstrCombined.c_str());
+			m_PathInfoList.push_back(new IMGPATH(szObjKey, szStateKey, szPath, stoi(szCount)));
 		}
 
 		fin.close();
@@ -125,27 +126,42 @@ void CPathFind::OnDropFiles(HDROP hDropInfo)
 	TCHAR		szFileName[MAX_STR] = L"";
 
 	int iFileCnt = DragQueryFile(hDropInfo, 0xffffffff, nullptr, 0);
-
+	m_ListBox.ResetContent();
+	
 	for (int i = 0; i < iFileCnt; ++i)
 	{
 		DragQueryFile(hDropInfo, i, szFilePath, MAX_PATH);
 		CFileInfo::DirInfoExtraction(szFilePath, m_PathInfoList);
+	}
 
-		m_ListBox.ResetContent();
+	wstring	wstrCombined = L"";
+	TCHAR	szBuf[MAX_STR] = L"";
 
-		wstring	wstrCombined = L"";
-		TCHAR	szBuf[MAX_STR] = L"";
+	for (auto& ImgPath : m_PathInfoList)
+	{
+		// 정수를 유니코드 문자열로 변환
+		_itow_s(ImgPath->iCount, szBuf, 10);
 
-		for (auto& ImgPath : m_PathInfoList)
-		{
-			// 정수를 유니코드 문자열로 변환
-			_itow_s(ImgPath->iCount, szBuf, 10);
+		wstrCombined = ImgPath->wstrObjKey + L"|" + ImgPath->wstrStateKey + L"|" + szBuf + L"|" + ImgPath->wstrPath;
 
-			wstrCombined = ImgPath->wstrObjKey + L"|" + ImgPath->wstrStateKey + L"|" + szBuf + L"|" + ImgPath->wstrPath;
-
-			m_ListBox.AddString(wstrCombined.c_str());
-		}
+		m_ListBox.AddString(wstrCombined.c_str());
 	}
 
 	UpdateData(FALSE);
+}
+
+void CPathFind::OnBnClickedPathClearButton()
+{
+	UpdateData(TRUE);
+
+	Clear_InfoList();
+	m_ListBox.ResetContent();
+
+	UpdateData(FALSE);
+}
+
+void CPathFind::Clear_InfoList()
+{
+	for_each(m_PathInfoList.begin(), m_PathInfoList.end(), CDeleteObj());
+	m_PathInfoList.clear();
 }
