@@ -28,6 +28,10 @@ public:
 	void		Set_Installed() { m_bInstalled = true; }
 
 	const bool&	Get_Installed() { return m_bInstalled; }
+	D3DXVECTOR3 Get_Pos() const
+	{
+		return m_tInfo.vPos;
+	}
 
 public:
 	CToolView*				m_pMainView;

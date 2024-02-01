@@ -30,7 +30,7 @@ HRESULT CMyTerrain::Initialize(void)
 		for (int j = 0; j < m_iTileX; ++j)
 		{
 			TILE*		pTile = new TILE;
-
+			
 			float	fX = (TILECX * j) + (i % 2) * (TILECX / 2.f);
 			float	fY = (TILECY / 2.f) * i;
 

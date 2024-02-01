@@ -37,9 +37,6 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
-    <Filter Include="05. Etc\01. FileInfo">
-      <UniqueIdentifier>{e979dbe3-6307-4c52-a049-0a797525b533}</UniqueIdentifier>
-    </Filter>
     <Filter Include="04. Texture\Manager">
       <UniqueIdentifier>{85380afb-adb0-4cf4-ab29-1bbc20216120}</UniqueIdentifier>
     </Filter>
@@ -75,6 +72,9 @@
     </Filter>
     <Filter Include="01. View\MyForm\PathFind">
       <UniqueIdentifier>{508bf5e5-300d-4d37-b941-ff5d471f4f85}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05. Etc\01. FileInfo">
+      <UniqueIdentifier>{e979dbe3-6307-4c52-a049-0a797525b533}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

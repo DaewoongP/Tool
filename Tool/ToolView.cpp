@@ -205,11 +205,15 @@ void CToolView::OnLButtonDown(UINT nFlags, CPoint point)
 	{
 	case PICK_OBJ:
 	{
-		m_vecUnit.back()->Set_Alpha(255);
-		m_vecUnit.back()->Set_Installed();
+		if (m_vecUnit.empty())
+			break;
+		CObj* pInstalledUnit = m_vecUnit.back();
+		pInstalledUnit->Set_Alpha(255);
+		pInstalledUnit->Set_Installed();
+		pInstalledUnit->Set_Pos(Get_Mouse().x + GetScrollPos(0), Get_Mouse().y + GetScrollPos(1));
+
 		CObj* pUnit = new CUnit;
 		pUnit->Initialize();
-		pUnit->Set_Pos(::Get_Mouse().x + GetScrollPos(0), ::Get_Mouse().y + GetScrollPos(1));
 		m_vecUnit.push_back(pUnit);
 	}
 		break;

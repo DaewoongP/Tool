@@ -10,12 +10,15 @@ CUnit::CUnit() : CObj()
 	CMainFrame*		pMainFrm = dynamic_cast<CMainFrame*>(AfxGetApp()->GetMainWnd());
 	CMyForm*		pMyForm = dynamic_cast<CMyForm*>(pMainFrm->m_SecondSplitter.GetPane(1, 0));
 	
-	m_tUnitData.strName = pMyForm->m_ObjTool.m_strName.GetString();
-	m_tUnitData.iType = pMyForm->m_ObjTool.m_Type_Combo.GetCurSel();
-	m_tUnitData.iLayer = pMyForm->m_ObjTool.m_iLayer;
-	m_tUnitData.iAttack = pMyForm->m_ObjTool.m_iAttack;
-	m_tUnitData.iHp = pMyForm->m_ObjTool.m_iHp;
-	m_tUnitData.bCollision = pMyForm->m_ObjTool.m_Collision_Check.GetCheck();
+	if (nullptr != pMyForm)
+	{
+		m_tUnitData.strName = pMyForm->m_ObjTool.m_strName.GetString();
+		m_tUnitData.iType = pMyForm->m_ObjTool.m_Type_Combo.GetCurSel();
+		m_tUnitData.iLayer = pMyForm->m_ObjTool.m_iLayer;
+		m_tUnitData.iAttack = pMyForm->m_ObjTool.m_iAttack;
+		m_tUnitData.iHp = pMyForm->m_ObjTool.m_iHp;
+		m_tUnitData.bCollision = pMyForm->m_ObjTool.m_Collision_Check.GetCheck();
+	}
 }
 
 CUnit::~CUnit()
@@ -40,7 +43,8 @@ HRESULT CUnit::Initialize(void)
 
 	m_tInfo.vPos = { Get_Mouse().x, Get_Mouse().y, 0.f };
 	m_iAlpha = 120;
-	return E_NOTIMPL;
+
+	return S_OK;
 }
 
 int CUnit::Update(void)
@@ -75,7 +79,7 @@ void CUnit::Render(void)
 			0.f);
 	matWorld = matScale * matTrans;
 	CDevice::Get_Instance()->Get_Sprite()->SetTransform(&matWorld);
-
+	
 	// 텍스쳐를 가져오는 부분
 	const TEXINFO*	pTexInfo = CTextureMgr::Get_Instance()->Get_Texture(
 		m_tImgPath.wstrObjKey.c_str(), m_tImgPath.wstrStateKey.c_str(), m_tImgPath.iCount);
