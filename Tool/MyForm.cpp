@@ -75,18 +75,13 @@ void CMyForm::Dump(CDumpContext& dc) const
 void CMyForm::OnInitialUpdate()
 {
 	CFormView::OnInitialUpdate();
-	// 격자 ONOFF 체크박스 처음 상태를 true로 설정
 	m_GirdRender.SetCheck(true);
 
-	CFileFind Find;
 	TCHAR	szPath[MAX_PATH] = L"";
-
-	// GetCurrentDirectory : 현재 프로젝트가 있는 디렉토리 경로를 얻어오는 함수
-
 	GetCurrentDirectory(MAX_PATH, szPath);
 	PathRemoveFileSpec(szPath);
 	lstrcat(szPath, L"\\Texture");
-	wstring wstrPath = szPath; // 경로만들기.
+	wstring wstrPath = szPath;
 
 	m_Tree.InsertItem(TEXT("Texture"), 0, 0, TVI_ROOT, TVI_LAST);
 	Make_Tree(wstrPath, m_Tree.GetRootItem());
@@ -138,24 +133,23 @@ void CMyForm::OnGridCheckClicked()
 void CMyForm::Make_Tree(wstring & wstrPath, HTREEITEM parent)
 {
 	CFileFind Find;
-	wstring		wstrFilePath = wstrPath + L"\\*.*";
-	BOOL	bContinue = Find.FindFile(wstrFilePath.c_str());
+	wstring	wstrFilePath = wstrPath + L"\\*.*";
+	BOOL bContinue = Find.FindFile(wstrFilePath.c_str());
 	
 	while (bContinue)
 	{
-  		bContinue = Find.FindNextFile();
+		bContinue = Find.FindNextFile();
 
-		if (Find.IsDots())
+		if (Find.IsDots() || Find.IsSystem())
 			continue;
-
-		if (Find.IsSystem())
-			continue;
-
+		
 		if (Find.IsDirectory())
 		{
 			CString cstr = Find.GetFileTitle();
-			HTREEITEM curTree = m_Tree.InsertItem(cstr, 0, 0, parent, TVI_LAST);
-			wstring curFilePath = wstrPath + L"\\" + cstr.GetString();
+			HTREEITEM curTree = 
+				m_Tree.InsertItem(cstr, 0, 0, parent, TVI_LAST);
+			wstring curFilePath = 
+				wstrPath + L"\\" + cstr.GetString();
 			Make_Tree(curFilePath, curTree);
 		}
 	}
@@ -206,8 +200,6 @@ void CMyForm::OnTreeCtrl(NMHDR *pNMHDR, LRESULT *pResult)
 
 	m_ListBox.ResetContent();
 
-	int FileCnt = CFileInfo::DirFileCnt(szPath);
-
 	//CFileFind : MFC에서 제공하는 파일 및 경로 제어 관련 클래스
 	CFileFind			Find;
 
@@ -219,18 +211,14 @@ void CMyForm::OnTreeCtrl(NMHDR *pNMHDR, LRESULT *pResult)
 	{
 		bContinue = Find.FindNextFile();
 
-		if (Find.IsDots())
-			continue;
-
-		else if (Find.IsDirectory())
-			continue;
-
-		else if (Find.IsSystem())
+		if (Find.IsDots() ||
+			Find.IsDirectory() ||
+			Find.IsSystem())
 			continue;
 
 		TCHAR szPathBuf[MAX_STR] = L"";
 		lstrcpy(szPathBuf, Find.GetFilePath().GetString());
-		wstring		wstrFileName = Find.GetFileTitle().GetString();
+		wstring	wstrFileName = Find.GetFileTitle().GetString();
 
 		m_ListBox.AddString(wstrFileName.c_str());
 	}
@@ -255,20 +243,19 @@ void CMyForm::DrawPictureControl(int _iSelect)
 {
 	CString cstrSelFile;
 	m_ListBox.GetText(_iSelect, cstrSelFile);
-	wstring wstrImgPath = m_wstrCurDir + L"\\" + cstrSelFile.GetString() + L".png";
-	TCHAR szPath[MAX_PATH];
-	lstrcpy(szPath, wstrImgPath.c_str());
+	wstring wstrImgPath = m_wstrCurDir + L"\\" + 
+		cstrSelFile.GetString() + L".png";
 
 	CImage PngImage;
-	CRect rect;
-	m_Picture.GetClientRect(rect);
-	CDC* dc; //픽쳐 컨트롤의 DC를 가져올  CDC 포인터
-	dc = m_Picture.GetDC(); //픽쳐 컨트롤의 DC를 얻는다.
-							//PngImage.Draw(dc->m_hDC, rect);
-	PngImage.Load(szPath);
-	PngImage.StretchBlt(dc->m_hDC, rect);
+	CDC* pDC;
+	CRect rc;
+	m_Picture.GetClientRect(rc);
+	pDC = m_Picture.GetDC();
 
-	ReleaseDC(dc);//DC 해제
+	PngImage.Load(wstrImgPath.c_str());
+	PngImage.StretchBlt(pDC->m_hDC, rc);
+
+	ReleaseDC(pDC);
 }
 
 void CMyForm::DrawMap()

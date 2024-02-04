@@ -7,6 +7,7 @@
 #include "afxdialogex.h"
 #include "FileInfo.h"
 
+#define SPLIT_KEY L'|'
 
 // CPathFind 대화 상자입니다.
 
@@ -50,8 +51,6 @@ void CPathFind::OnListBox()
 
 void CPathFind::OnSaveData()
 {
-	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-
 	wofstream		fout;
 	fout.open(L"../Data/ImgPath.txt", ios::out);
 
@@ -59,14 +58,13 @@ void CPathFind::OnSaveData()
 	{
 		for (auto& ImgPath : m_PathInfoList)
 		{
-			fout << ImgPath->wstrObjKey << L"|" << ImgPath->wstrStateKey << L"|"
-				<< ImgPath->iCount << L"|" << ImgPath->wstrPath << endl;
+			fout << ImgPath->wstrObjKey << SPLIT_KEY << ImgPath->wstrStateKey << SPLIT_KEY
+				<< ImgPath->iCount << SPLIT_KEY << ImgPath->wstrPath << endl;
 		}
 
 		fout.close();
 	}
 
-	//윈도우의 기본 프로그램을 실행시키는 함수
 	WinExec("notepad.exe ../Data/ImgPath.txt", SW_SHOW);
 }
 
@@ -92,15 +90,15 @@ void CPathFind::OnLoadData()
 
 		while (true)
 		{
-			fin.getline(szObjKey, MAX_STR, '|');
-			fin.getline(szStateKey, MAX_STR, '|');
-			fin.getline(szCount, MAX_STR, '|');
+			fin.getline(szObjKey, MAX_STR, SPLIT_KEY);
+			fin.getline(szStateKey, MAX_STR, SPLIT_KEY);
+			fin.getline(szCount, MAX_STR, SPLIT_KEY);
 			fin.getline(szPath, MAX_PATH);
 
 			if (fin.eof())
 				break;
 
-			wstrCombined = wstring(szObjKey) + L"|" + szStateKey + L"|" + szCount + L"|" + szPath;
+			wstrCombined = wstring(szObjKey) + SPLIT_KEY + szStateKey + SPLIT_KEY + szCount + SPLIT_KEY + szPath;
 			m_ListBox.AddString(wstrCombined.c_str());
 			m_PathInfoList.push_back(new IMGPATH(szObjKey, szStateKey, szPath, stoi(szCount)));
 		}
@@ -116,22 +114,20 @@ void CPathFind::OnLoadData()
 
 void CPathFind::OnDropFiles(HDROP hDropInfo)
 {
-	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
-
 	UpdateData(TRUE);
-
 	CDialog::OnDropFiles(hDropInfo);
-
 	TCHAR		szFilePath[MAX_PATH] = L"";
 	TCHAR		szFileName[MAX_STR] = L"";
-
-	int iFileCnt = DragQueryFile(hDropInfo, 0xffffffff, nullptr, 0);
+	int iFileCnt = 
+		DragQueryFile(hDropInfo, 0xffffffff, nullptr, 0);
 	m_ListBox.ResetContent();
 	
 	for (int i = 0; i < iFileCnt; ++i)
 	{
-		DragQueryFile(hDropInfo, i, szFilePath, MAX_PATH);
-		CFileInfo::DirInfoExtraction(szFilePath, m_PathInfoList);
+		DragQueryFile(
+			hDropInfo, i, szFilePath, MAX_PATH);
+		CFileInfo::DirInfoExtraction(
+			szFilePath, m_PathInfoList);
 	}
 
 	wstring	wstrCombined = L"";
@@ -139,10 +135,13 @@ void CPathFind::OnDropFiles(HDROP hDropInfo)
 
 	for (auto& ImgPath : m_PathInfoList)
 	{
-		// 정수를 유니코드 문자열로 변환
 		_itow_s(ImgPath->iCount, szBuf, 10);
 
-		wstrCombined = ImgPath->wstrObjKey + L"|" + ImgPath->wstrStateKey + L"|" + szBuf + L"|" + ImgPath->wstrPath;
+		wstrCombined = 
+			ImgPath->wstrObjKey + SPLIT_KEY + 
+			ImgPath->wstrStateKey + SPLIT_KEY + 
+			szBuf + SPLIT_KEY + 
+			ImgPath->wstrPath;
 
 		m_ListBox.AddString(wstrCombined.c_str());
 	}

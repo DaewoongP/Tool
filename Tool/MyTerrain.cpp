@@ -155,12 +155,14 @@ void CMyTerrain::Set_Ratio(D3DXMATRIX * pOut, const float & fRatioX, const float
 	pOut->_32 *= fRatioY;
 	pOut->_42 *= fRatioY;
 }
+#define NONE -1
 
-void CMyTerrain::TileChange(const D3DXVECTOR3 & vPos, const BYTE & byDrawID, const BYTE& byOption)
+void CMyTerrain::TileChange(const D3DXVECTOR3 & vPos, 
+	const BYTE & byDrawID, const BYTE& byOption)
 {
 	int	iIndex = GetTileIndex(vPos);
 
-	if (-1 == iIndex)
+	if (NONE == iIndex)
 		return;
 
 	m_vecTile[iIndex]->byDrawID = byDrawID;
@@ -175,37 +177,26 @@ int CMyTerrain::GetTileIndex(const D3DXVECTOR3 & vPos)
 			return index;
 	}
 
-	return -1;
+	return NONE;
 }
 
 bool CMyTerrain::Picking(const D3DXVECTOR3 & vPos, const int& iIndex)
 {
-	//y = ax + b;
-
-
 	float	fGradient[4] = {
-
 		(TILECY / 2.f) / (TILECX / 2.f) * -1.f,
 		(TILECY / 2.f) / (TILECX / 2.f),
 		(TILECY / 2.f) / (TILECX / 2.f) * -1.f,
 		(TILECY / 2.f) / (TILECX / 2.f)
-
 	};
 
 	D3DXVECTOR3		vPoint[4] = {
-
 		{ m_vecTile[iIndex]->vPos.x, m_vecTile[iIndex]->vPos.y + (TILECY / 2.f), 0.f },
 		{ m_vecTile[iIndex]->vPos.x + (TILECX / 2.f), m_vecTile[iIndex]->vPos.y , 0.f },
 		{ m_vecTile[iIndex]->vPos.x, m_vecTile[iIndex]->vPos.y - (TILECY / 2.f), 0.f },
 		{ m_vecTile[iIndex]->vPos.x - (TILECX / 2.f), m_vecTile[iIndex]->vPos.y, 0.f },
 	};
 
-	//y = ax  + b
-
-	//b = y - ax 
-
 	float		fB[4] = {
-
 		vPoint[0].y - fGradient[0] * vPoint[0].x,
 		vPoint[1].y - fGradient[1] * vPoint[1].x,
 		vPoint[2].y - fGradient[2] * vPoint[2].x,
@@ -214,24 +205,13 @@ bool CMyTerrain::Picking(const D3DXVECTOR3 & vPos, const int& iIndex)
 
 	bool		bCheck[4]{ false };
 
-	//0 == ax + b - y  // 선분 상에 있다
-	//0 > ax + b - y   // 선분 위에 있다
-	//0 < ax + b - y	// 선분 아래 있다
-
-	// 12시 -> 3시
-	if (0 < fGradient[0] * vPos.x + fB[0] - vPos.y)
+	if (vPos.y < fGradient[0] * vPos.x + fB[0])
 		bCheck[0] = true;
-
-	// 3시 -> 6시
-	if (0 >= fGradient[1] * vPos.x + fB[1] - vPos.y)
+	if (vPos.y >= fGradient[1] * vPos.x + fB[1])
 		bCheck[1] = true;
-
-	// 6시 -> 9시
-	if (0 >= fGradient[2] * vPos.x + fB[2] - vPos.y)
+	if (vPos.y >= fGradient[2] * vPos.x + fB[2])
 		bCheck[2] = true;
-
-	// 9시 -> 12시
-	if (0 < fGradient[3] * vPos.x + fB[3] - vPos.y)
+	if (vPos.y < fGradient[3] * vPos.x + fB[3])
 		bCheck[3] = true;
 
 	return bCheck[0] && bCheck[1] && bCheck[2] && bCheck[3];
@@ -240,7 +220,6 @@ bool CMyTerrain::Picking(const D3DXVECTOR3 & vPos, const int& iIndex)
 bool CMyTerrain::Picking_Dot(const D3DXVECTOR3& vPos, const int& iIndex)
 {
 	D3DXVECTOR3		vPoint[4] = {
-
 		{ m_vecTile[iIndex]->vPos.x, m_vecTile[iIndex]->vPos.y + (TILECY / 2.f), 0.f },
 		{ m_vecTile[iIndex]->vPos.x + (TILECX / 2.f), m_vecTile[iIndex]->vPos.y , 0.f },
 		{ m_vecTile[iIndex]->vPos.x, m_vecTile[iIndex]->vPos.y - (TILECY / 2.f), 0.f },
@@ -248,7 +227,6 @@ bool CMyTerrain::Picking_Dot(const D3DXVECTOR3& vPos, const int& iIndex)
 	};
 
 	D3DXVECTOR3		vDir[4] = {
-
 		vPoint[1] - vPoint[0],
 		vPoint[2] - vPoint[1],
 		vPoint[3] - vPoint[2],
@@ -256,7 +234,6 @@ bool CMyTerrain::Picking_Dot(const D3DXVECTOR3& vPos, const int& iIndex)
 	};
 
 	D3DXVECTOR3		vNormal[4] = {
-
 		{ -vDir[0].y , vDir[0].x, 0.f },
 		{ -vDir[1].y , vDir[1].x, 0.f },
 		{ -vDir[2].y , vDir[2].x, 0.f },
@@ -265,7 +242,6 @@ bool CMyTerrain::Picking_Dot(const D3DXVECTOR3& vPos, const int& iIndex)
 	};
 
 	D3DXVECTOR3		vMouseDir[4] = {
-
 		vPos - vPoint[0],
 		vPos - vPoint[1],
 		vPos - vPoint[2],
@@ -280,7 +256,6 @@ bool CMyTerrain::Picking_Dot(const D3DXVECTOR3& vPos, const int& iIndex)
 
 	for (int i = 0; i < 4; ++i)
 	{
-		// 예각인 경우 타일 외부를 피킹한 것
 		if (0.f < D3DXVec3Dot(&vNormal[i], &vMouseDir[i]))
 			return false;
 	}
